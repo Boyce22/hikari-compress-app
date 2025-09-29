@@ -1,74 +1,108 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
+import { join } from 'path';
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import icon from '../../resources/toji-pfp.jpg?asset';
 
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: false,
+/**
+ * Configurações imutáveis do app e da janela principal
+ */
+const APP_CONFIG = Object.freeze({
+  APP_ID: 'com.electron',
+  PRELOAD_PATH: join(__dirname, '../preload/index.js'),
+  RENDERER_PATH: join(__dirname, '../renderer/index.html'),
+  ICON_PATH: icon,
+  ICON_LINUX_PATH: join(__dirname, 'assets/icon.png'),
+  DEV_RENDERER_URL: process.env['ELECTRON_RENDERER_URL'] || '',
+  VIDEO_FILE_FILTERS: [{ name: 'Vídeos', extensions: ['mp4', 'mkv', 'avi', 'mov'] }],
+});
+
+/**
+ * Cria a janela principal do Electron
+ */
+function createMainWindow(): BrowserWindow {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+  const window = new BrowserWindow({
+    titleBarStyle: process.platform === 'darwin' ? 'hidden' : undefined,
+    width,
+    height,
+    fullscreenable: true,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: process.platform === 'linux' ? APP_CONFIG.ICON_LINUX_PATH : APP_CONFIG.ICON_PATH,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
+      preload: APP_CONFIG.PRELOAD_PATH,
+      sandbox: false,
+    },
+  });
 
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
+  // Mostrar janela quando pronta
+  window.on('ready-to-show', () => window.show());
 
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
+  // Abrir links externos no browser padrão
+  window.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  // Carregar conteúdo
+  if (is.dev && APP_CONFIG.DEV_RENDERER_URL) {
+    window.loadURL(APP_CONFIG.DEV_RENDERER_URL);
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    window.loadFile(APP_CONFIG.RENDERER_PATH);
   }
+
+  return window;
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+/**
+ * Handlers IPC do Electron
+ */
+const IPC_HANDLERS = Object.freeze({
+  init: () => {
+    // Ping teste
+    ipcMain.on('ping', () => console.log('pong'));
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
+    // Abrir diálogo de arquivos
+    ipcMain.handle('open-file-dialog', async () => {
+      const win = BrowserWindow.getFocusedWindow();
+      if (!win) return [];
+      const result = await dialog.showOpenDialog(win, {
+        properties: ['openFile', 'multiSelections'],
+        filters: APP_CONFIG.VIDEO_FILE_FILTERS,
+      });
+      return result.filePaths;
+    });
+  },
+});
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+/**
+ * Inicializa a aplicação
+ */
+function initApp(): void {
+  app.whenReady().then(() => {
+    // Configura app ID para Windows
+    electronApp.setAppUserModelId(APP_CONFIG.APP_ID);
 
-  createWindow()
+    // Otimiza atalhos
+    app.on('browser-window-created', (_, window) => optimizer.watchWindowShortcuts(window));
 
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+    // Inicializa handlers IPC
+    IPC_HANDLERS.init();
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+    // Cria janela principal
+    createMainWindow();
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+    // Recria janela no macOS quando clicar no dock
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    });
+  });
+
+  // Fecha app em todas plataformas exceto macOS
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+  });
+}
+
+// Inicialização
+initApp();

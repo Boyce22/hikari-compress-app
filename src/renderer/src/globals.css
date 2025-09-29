@@ -1,55 +1,55 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @config "../../../tailwind.config.ts";
 
-/* HikariCompress Design System - Anime-inspired colors and gradients */
+/* HikariCompress Design System - Black & Green Elegant Palette */
 
 @layer base {
   :root {
-    /* Base colors - Clean dark theme */
-    --background: 240 6% 10%;
-    --foreground: 210 20% 95%;
+    /* Base colors - Clean black theme */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
 
     /* Card colors */
-    --card: 240 4% 12%;
-    --card-foreground: 210 20% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
 
     /* Popover colors */
-    --popover: 240 4% 12%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Primary - Subtle purple */
-    --primary: 260 60% 65%;
-    --primary-foreground: 240 6% 10%;
-    --primary-glow: 260 40% 70%;
+    /* Primary - Dark green */
+    --primary: 142 60% 35%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 142 40% 40%;
 
-    /* Secondary - Muted blue */
-    --secondary: 220 40% 60%;
-    --secondary-foreground: 240 6% 10%;
+    /* Secondary - Muted dark green */
+    --secondary: 142 30% 25%;
+    --secondary-foreground: 0 0% 98%;
 
     /* Muted colors */
-    --muted: 240 3% 15%;
-    --muted-foreground: 240 5% 70%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    /* Accent - Soft cyan */
-    --accent: 190 50% 65%;
-    --accent-foreground: 240 6% 10%;
+    /* Accent - Subtle dark green */
+    --accent: 142 40% 30%;
+    --accent-foreground: 0 0% 98%;
 
     /* Status colors */
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 210 20% 95%;
-    --success: 120 50% 55%;
-    --success-foreground: 240 6% 10%;
-    --warning: 45 70% 60%;
-    --warning-foreground: 240 6% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 142 60% 35%;
+    --success-foreground: 0 0% 98%;
+    --warning: 45 93% 58%;
+    --warning-foreground: 0 0% 10%;
 
     /* Border and input */
-    --border: 240 3% 18%;
-    --input: 240 3% 18%;
-    --ring: 260 60% 65%;
+    --border: 0 0% 20%;
+    --input: 0 0% 18%;
+    --ring: 142 60% 35%;
 
     /* Subtle gradients */
-    --gradient-card: linear-gradient(135deg, hsl(240 4% 12%), hsl(240 3% 15%));
-    --gradient-subtle: linear-gradient(135deg, hsl(260 20% 20%), hsl(240 6% 10%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 10%), hsl(0 0% 12%));
+    --gradient-subtle: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 6%));
 
     --radius: 0.5rem;
 
@@ -123,15 +123,15 @@
   .card-clean {
     background: var(--gradient-card);
     border: 1px solid hsl(var(--border));
-    box-shadow: 0 4px 16px hsl(240 6% 10% / 0.15);
+    box-shadow: 0 4px 16px hsl(0 0% 0% / 0.1);
   }
 
   .subtle-glow {
-    box-shadow: 0 0 20px hsl(260 30% 65% / 0.15);
+    box-shadow: 0 0 20px hsl(142 60% 35% / 0.1);
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(260 60% 65%), hsl(190 50% 65%));
+    background: linear-gradient(135deg, hsl(142 60% 35%), hsl(142 40% 40%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
