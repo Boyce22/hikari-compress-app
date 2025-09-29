@@ -4,19 +4,19 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
-    "src/preload/*.d.ts"
-, "src/shared/types/HistoryItem.ts", "src/shared/types/VideoFile.ts"  ],
+    "src/preload/*.d.ts",
+    "src/shared/types/HistoryItem.ts",
+    "src/shared/types/VideoFile.ts"
+  ],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ],
+      "@shared/*": ["src/shared/*"],
+      "@renderer/*": ["src/renderer/src/*"],
       "@hooks/*": ["src/renderer/src/hooks/*"],
-      "@components/*": ["src/renderer/src/components/*"],
-
+      "@components/*": ["src/renderer/src/components/*"]
     }
   }
 }

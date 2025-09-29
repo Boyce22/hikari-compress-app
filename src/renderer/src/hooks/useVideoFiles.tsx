@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { VideoFile } from '@renderer/types/VideoFile';
+import { VideoFile } from '@shared/types/VideoFile';
 
 export const useVideoFiles = () => {
   const [videoFiles, setVideoFiles] = useState<VideoFile[]>([]);

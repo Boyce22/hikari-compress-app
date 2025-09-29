@@ -11,7 +11,7 @@ import { VideoFileItem } from '@components/VideoFileItem';
 import { FileUploadZone } from '@components/FileUploadZone';
 
 import { HikariTabs } from '@components/HikariTabs';
-import { HistoryItem } from '../../shared/types/HistoryItem';
+import { HistoryItem } from '@shared/types/HistoryItem';
 import { useFileFormatter } from '@hooks/useFileFormatter';
 import { useSettings } from '@hooks/useSettings';
 import { useVideoFiles } from '@hooks/useVideoFiles';
