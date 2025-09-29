@@ -1,4 +1,5 @@
 export type ConvertOptions = {
+    inputPath: string;
     codec: string;
     quality: string;
     keepSubtitles: boolean;

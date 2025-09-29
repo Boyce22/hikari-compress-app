@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+
 import { VideoFile } from '@shared/types/VideoFile';
 
 export const useVideoFiles = () => {
@@ -6,6 +7,7 @@ export const useVideoFiles = () => {
 
   const handleFileUpload = useCallback(async () => {
     if (!window.api) return;
+
     const filePaths: string[] = await window.api.openFileDialog();
     if (!filePaths?.length) return;
 
@@ -17,36 +19,9 @@ export const useVideoFiles = () => {
     setVideoFiles((prev) => [...prev, ...newFiles]);
   }, []);
 
-  const removeFile = useCallback((fileId: string) => {
-    setVideoFiles((prev) => prev.filter((f) => f.id !== fileId));
-  }, []);
+  const removeFile = useCallback(() => {}, []);
 
-  const startCompression = useCallback((fileId: string) => {
-    setVideoFiles((prev) =>
-      prev.map((f) => (f.id === fileId ? { ...f, status: 'processing', progress: 0, estimatedTime: '5 min' } : f)),
-    );
-
-    const interval = setInterval(() => {
-      setVideoFiles((prev) =>
-        prev.map((f) => {
-          if (f.id !== fileId || f.status !== 'processing') return f;
-
-          const newProgress = Math.min(f.progress + Math.random() * 15, 100);
-          if (newProgress >= 100) {
-            clearInterval(interval);
-            return {
-              ...f,
-              status: 'completed',
-              progress: 100,
-              compressedSize: Math.floor(f.size * 0.4),
-              estimatedTime: undefined,
-            };
-          }
-          return { ...f, progress: newProgress };
-        }),
-      );
-    }, 500);
-  }, []);
+  const startCompression = useCallback(() => {}, []);
 
   return { videoFiles, handleFileUpload, removeFile, startCompression, setVideoFiles };
 };

@@ -6,7 +6,8 @@
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
     "src/shared/types/HistoryItem.ts",
-    "src/shared/types/VideoFile.ts"
+    "src/shared/types/VideoFile.ts",
+    "src/shared/types/ConvertOptions.ts"
   ],
   "compilerOptions": {
     "composite": true,

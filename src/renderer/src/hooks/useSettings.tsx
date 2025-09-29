@@ -10,6 +10,8 @@ export const useSettings = () => {
     backgroundImage: '',
   });
 
+  console.log({ settings });
+
   const handleBackgroundImageUpload = () => {
     console.log('handleBackgroundImageUpload');
   };

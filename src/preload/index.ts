@@ -1,9 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import { ConvertOptions } from '@shared/types/ConvertOptions';
 
 // Custom APIs for renderer
 const api = {
-  openFileDialog: () => ipcRenderer.invoke('open-file-dialog'),
+  openFileDialog: async () => await ipcRenderer.invoke('open-file-dialog'),
+  compressVideo: async (options: ConvertOptions) => await ipcRenderer.invoke('compress-video', options),
 };
 
 if (process.contextIsolated) {

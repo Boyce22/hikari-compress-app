@@ -1,7 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
 import { join } from 'path';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { compress } from './node/compress';
 import icon from '../../resources/toji-pfp.jpg?asset';
+import { ConvertOptions } from '@shared/types/ConvertOptions';
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
 
 /**
  * Configurações imutáveis do app e da janela principal
@@ -35,6 +37,8 @@ function createMainWindow(): BrowserWindow {
     },
   });
 
+  window.webContents.openDevTools()
+
   // Mostrar janela quando pronta
   window.on('ready-to-show', () => window.show());
 
@@ -59,10 +63,6 @@ function createMainWindow(): BrowserWindow {
  */
 const IPC_HANDLERS = Object.freeze({
   init: () => {
-    // Ping teste
-    ipcMain.on('ping', () => console.log('pong'));
-
-    // Abrir diálogo de arquivos
     ipcMain.handle('open-file-dialog', async () => {
       const win = BrowserWindow.getFocusedWindow();
       if (!win) return [];
@@ -71,6 +71,11 @@ const IPC_HANDLERS = Object.freeze({
         filters: APP_CONFIG.VIDEO_FILE_FILTERS,
       });
       return result.filePaths;
+    });
+
+    ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
+      const { size, outputPath } = await compress(options);
+      return { size, outputPath };
     });
   },
 });
