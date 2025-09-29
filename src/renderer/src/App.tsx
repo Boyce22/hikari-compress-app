@@ -10,12 +10,12 @@ import { QuickSettings } from '@components/QuickSettings';
 import { VideoFileItem } from '@components/VideoFileItem';
 import { FileUploadZone } from '@components/FileUploadZone';
 
-
 import { HikariTabs } from '@components/HikariTabs';
-import { HistoryItem } from './types/HistoryItem';
+import { HistoryItem } from '../../shared/types/HistoryItem';
 import { useFileFormatter } from '@hooks/useFileFormatter';
 import { useSettings } from '@hooks/useSettings';
 import { useVideoFiles } from '@hooks/useVideoFiles';
+import { Settings } from './components/Settings';
 
 const HISTORY: HistoryItem[] = [
   {
@@ -132,9 +132,7 @@ export const HikariCompressApp: React.FC = () => {
 
           {/* Configurações avançadas */}
           <TabsContent value="settings">
-            <Card className="p-8 card-clean max-w-3xl mx-auto">
-              <QuickSettings settings={settings} onSettingsChange={setSettings} />
-            </Card>
+            <Settings />
           </TabsContent>
         </Tabs>
       </div>

@@ -12,7 +12,13 @@ export const useSettings = () => {
 
   const handleBackgroundImageUpload = () => {
     console.log('handleBackgroundImageUpload');
-  }
+  };
 
-  return { settings, setSettings, handleBackgroundImageUpload };
+  return {
+    settings,
+    setSettings,
+    updateSetting: (key: string, value: any) => setSettings({ ...settings, [key]: value }),
+    handleBackgroundImageUpload,
+    removeBackgroundImage: () => setSettings({ ...settings, backgroundImage: '' }),
+  };
 };
