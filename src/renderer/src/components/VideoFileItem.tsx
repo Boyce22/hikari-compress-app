@@ -1,7 +1,7 @@
 import { VideoFile } from '@renderer/types/VideoFile';
-import { Badge } from '@renderer/components/ui/badge';
-import { Button } from '@renderer/components/ui/button';
-import { Progress } from '@renderer/components/ui/progress';
+import { Badge } from '@components/ui/badge';
+import { Button } from '@components/ui/button';
+import { Progress } from '@components/ui/progress';
 import { Play, Download, Trash2, HardDrive, Clock } from 'lucide-react';
 
 interface VideoFileItemProps {

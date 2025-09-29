@@ -1,21 +1,21 @@
 import type React from 'react';
 import { Download } from 'lucide-react';
 
-import { Card } from '@renderer/components/ui/card';
-import { Button } from '@renderer/components/ui/button';
-import { Badge } from '@renderer/components/ui/badge';
-import { Tabs, TabsContent } from '@renderer/components/ui/tabs';
+import { Card } from '@components/ui/card';
+import { Badge } from '@components/ui/badge';
+import { Button } from '@components/ui/button';
+import { HikariHeader } from '@components/HikariHeader';
+import { Tabs, TabsContent } from '@components/ui/tabs';
+import { QuickSettings } from '@components/QuickSettings';
+import { VideoFileItem } from '@components/VideoFileItem';
+import { FileUploadZone } from '@components/FileUploadZone';
 
-import { HikariHeader } from '@renderer/components/HikariHeader';
-import { FileUploadZone } from '@renderer/components/FileUploadZone';
-import { VideoFileItem } from '@renderer/components/VideoFileItem';
-import { QuickSettings } from '@renderer/components/QuickSettings';
 
-import { HikariTabs } from '@renderer/components/HikariTabs';
+import { HikariTabs } from '@components/HikariTabs';
 import { HistoryItem } from './types/HistoryItem';
-import { useFileFormatter } from './hooks/useFileFormatter';
-import { useSettings } from './hooks/useSettings';
-import { useVideoFiles } from './hooks/useVideoFiles';
+import { useFileFormatter } from '@hooks/useFileFormatter';
+import { useSettings } from '@hooks/useSettings';
+import { useVideoFiles } from '@hooks/useVideoFiles';
 
 const HISTORY: HistoryItem[] = [
   {

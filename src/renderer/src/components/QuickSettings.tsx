@@ -1,9 +1,9 @@
 import { Settings } from 'lucide-react';
-import { Card } from '@renderer/components/ui/card';
-import { Label } from '@renderer/components/ui/label';
-import { Switch } from '@renderer/components/ui/switch';
-import { Separator } from '@renderer/components/ui/separator';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@renderer/components/ui/select';
+import { Card } from '@components/ui/card';
+import { Label } from '@components/ui/label';
+import { Switch } from '@components/ui/switch';
+import { Separator } from '@components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
 
 interface QuickSettingsProps {
   settings: {
