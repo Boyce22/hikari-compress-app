@@ -5,6 +5,7 @@ import { Switch } from '@components/ui/switch';
 import { Separator } from '@components/ui/separator';
 import { TooltipContent, TooltipTrigger, Tooltip } from './ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
+import { SystemSpecifications } from '@shared/types/SystemSpecifications';
 
 interface QuickSettingsProps {
   settings: {
@@ -13,6 +14,7 @@ interface QuickSettingsProps {
     keepSubtitles: boolean;
     keepAudio: boolean;
   };
+  specifications: SystemSpecifications;
   onSettingsChange: (settings: any) => void;
 }
 
@@ -42,6 +44,7 @@ const SELECT_OPTIONS = Object.freeze([
     ],
   },
 ]);
+
 const CODEC_DESCRIPTIONS = Object.freeze({
   h264: 'H.264: Padrão atual, boa compatibilidade e qualidade, compressão rápida. Arquivos maiores que H.265/AV1.',
   h265: 'H.265: Compressão melhor, arquivos menores, uso maior de CPU/GPU, compatibilidade menor.',
@@ -61,7 +64,8 @@ const SWITCH_OPTIONS = Object.freeze([
   },
 ]);
 
-export function QuickSettings({ settings, onSettingsChange }: QuickSettingsProps) {
+export function QuickSettings({ settings, onSettingsChange, specifications }: QuickSettingsProps) {
+  console.log({ specifications });
   const handleSelectChange = (key: string, value: string) => {
     onSettingsChange({ ...settings, [key]: value });
   };

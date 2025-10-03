@@ -6,6 +6,7 @@ import { ConvertOptions } from '@shared/types/ConvertOptions';
 const api = {
   openFileDialog: async () => await ipcRenderer.invoke('open-file-dialog'),
   compressVideo: async (options: ConvertOptions) => await ipcRenderer.invoke('compress-video', options),
+  getSystemSpecs: async () => await ipcRenderer.invoke('get-system-specs'),
 };
 
 if (process.contextIsolated) {

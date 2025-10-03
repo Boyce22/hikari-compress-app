@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useEffect } from 'react';
 import { Download } from 'lucide-react';
 
 import { Card } from '@components/ui/card';
@@ -10,12 +11,13 @@ import { QuickSettings } from '@components/QuickSettings';
 import { VideoFileItem } from '@components/VideoFileItem';
 import { FileUploadZone } from '@components/FileUploadZone';
 
+import { Settings } from './components/Settings';
+import { useSettings } from '@hooks/useSettings';
 import { HikariTabs } from '@components/HikariTabs';
+import { useVideoFiles } from '@hooks/useVideoFiles';
 import { HistoryItem } from '@shared/types/HistoryItem';
 import { useFileFormatter } from '@hooks/useFileFormatter';
-import { useSettings } from '@hooks/useSettings';
-import { useVideoFiles } from '@hooks/useVideoFiles';
-import { Settings } from './components/Settings';
+import { useSystemSpecifications } from './hooks/useSystemSpecifications';
 
 const HISTORY: HistoryItem[] = [
   {
@@ -47,7 +49,12 @@ const HISTORY: HistoryItem[] = [
 export const HikariCompressApp: React.FC = () => {
   const { formatFileSize } = useFileFormatter();
   const { settings, setSettings } = useSettings();
+  const { specifications, getSystemSpecs } = useSystemSpecifications();
   const { videoFiles, handleFileUpload, removeFile, startCompression } = useVideoFiles();
+
+  useEffect(() => {
+    getSystemSpecs();
+  }, []);
 
   return (
     <div className="min-h-screen container mx-auto p-6 max-w-7xl flex flex-col items-center justify-center fade-in">
@@ -84,7 +91,7 @@ export const HikariCompressApp: React.FC = () => {
                   </Card>
                 )}
               </div>
-              <QuickSettings settings={settings} onSettingsChange={setSettings} />
+              <QuickSettings settings={settings} onSettingsChange={setSettings} specifications={specifications} />
             </div>
           </TabsContent>
 

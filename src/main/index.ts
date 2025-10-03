@@ -4,6 +4,7 @@ import icon from '../../resources/toji-pfp.jpg?asset';
 import { ConvertOptions } from '@shared/types/ConvertOptions';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
+import { getSystemSpecs } from './node/get-system-specs';
 
 /**
  * Configurações imutáveis do app e da janela principal
@@ -37,7 +38,7 @@ function createMainWindow(): BrowserWindow {
     },
   });
 
-  window.webContents.openDevTools()
+  window.webContents.openDevTools();
 
   // Mostrar janela quando pronta
   window.on('ready-to-show', () => window.show());
@@ -76,6 +77,10 @@ const IPC_HANDLERS = Object.freeze({
     ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
       const { size, outputPath } = await compress(options);
       return { size, outputPath };
+    });
+
+    ipcMain.handle('get-system-specs', async () => {
+      return await getSystemSpecs();
     });
   },
 });
