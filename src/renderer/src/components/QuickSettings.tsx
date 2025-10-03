@@ -1,8 +1,9 @@
-import { Settings } from 'lucide-react';
+import { InfoIcon, Settings } from 'lucide-react';
 import { Card } from '@components/ui/card';
 import { Label } from '@components/ui/label';
 import { Switch } from '@components/ui/switch';
 import { Separator } from '@components/ui/separator';
+import { TooltipContent, TooltipTrigger, Tooltip } from './ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
 
 interface QuickSettingsProps {
@@ -41,6 +42,11 @@ const SELECT_OPTIONS = Object.freeze([
     ],
   },
 ]);
+const CODEC_DESCRIPTIONS = Object.freeze({
+  h264: 'H.264: Padrão atual, boa compatibilidade e qualidade, compressão rápida. Arquivos maiores que H.265/AV1.',
+  h265: 'H.265: Compressão melhor, arquivos menores, uso maior de CPU/GPU, compatibilidade menor.',
+  av1: 'AV1: Melhor compressão e open-source, mas muito lento para codificar e suporte de hardware limitado.',
+});
 
 const SWITCH_OPTIONS = Object.freeze([
   {
@@ -75,18 +81,29 @@ export function QuickSettings({ settings, onSettingsChange }: QuickSettingsProps
       </div>
 
       <div className="space-y-6">
-        {/* Selects */}
         {SELECT_OPTIONS.map(({ key, label, options }) => (
           <div key={key} className="space-y-3">
-            <Label className="text-sm font-medium text-foreground">{label}</Label>
+            <Label className="text-sm font-medium text-foreground flex items-center gap-1">
+              {label}
+              {key === 'codec' && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <InfoIcon className="w-4 h-4 text-muted-foreground cursor-pointer" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs whitespace-pre-line">
+                    {Object.values(CODEC_DESCRIPTIONS).join('\n\n')}
+                  </TooltipContent>
+                </Tooltip>
+              )}
+            </Label>
             <Select value={settings[key]} onValueChange={(value) => handleSelectChange(key, value)}>
               <SelectTrigger className={CLASSES.selectTrigger}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className={CLASSES.selectContent}>
-                {options.map(({ value, label }) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
+                {options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
