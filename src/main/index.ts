@@ -1,14 +1,12 @@
 import { join } from 'path';
 import { compress } from './node/compress';
 import icon from '../../resources/toji-pfp.jpg?asset';
+import { getSystemSpecs } from './node/get-system-specs';
 import { ConvertOptions } from '@shared/types/ConvertOptions';
+import { OptionsFileDialog } from '@shared/types/OptionsFileDialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
-import { getSystemSpecs } from './node/get-system-specs';
 
-/**
- * Configurações imutáveis do app e da janela principal
- */
 const APP_CONFIG = Object.freeze({
   APP_ID: 'com.electron',
   PRELOAD_PATH: join(__dirname, '../preload/index.js'),
@@ -16,12 +14,8 @@ const APP_CONFIG = Object.freeze({
   ICON_PATH: icon,
   ICON_LINUX_PATH: join(__dirname, 'assets/icon.png'),
   DEV_RENDERER_URL: process.env['ELECTRON_RENDERER_URL'] || '',
-  VIDEO_FILE_FILTERS: [{ name: 'Vídeos', extensions: ['mp4', 'mkv', 'avi', 'mov'] }],
 });
 
-/**
- * Cria a janela principal do Electron
- */
 function createMainWindow(): BrowserWindow {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
@@ -39,80 +33,71 @@ function createMainWindow(): BrowserWindow {
   });
 
   window.webContents.openDevTools();
-
-  // Mostrar janela quando pronta
   window.on('ready-to-show', () => window.show());
 
-  // Abrir links externos no browser padrão
+  setupExternalLinks(window);
+  loadWindowContent(window);
+
+  return window;
+}
+
+function setupExternalLinks(window: BrowserWindow) {
   window.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };
   });
+}
 
-  // Carregar conteúdo
+function loadWindowContent(window: BrowserWindow) {
   if (is.dev && APP_CONFIG.DEV_RENDERER_URL) {
     window.loadURL(APP_CONFIG.DEV_RENDERER_URL);
   } else {
     window.loadFile(APP_CONFIG.RENDERER_PATH);
   }
-
-  return window;
 }
 
-/**
- * Handlers IPC do Electron
- */
-const IPC_HANDLERS = Object.freeze({
-  init: () => {
-    ipcMain.handle('open-file-dialog', async () => {
-      const win = BrowserWindow.getFocusedWindow();
-      if (!win) return [];
-      const result = await dialog.showOpenDialog(win, {
-        properties: ['openFile', 'multiSelections'],
-        filters: APP_CONFIG.VIDEO_FILE_FILTERS,
-      });
-      return result.filePaths;
-    });
+function registerIpcHandlers() {
+  ipcMain.handle('open-file-dialog', async (_event, args: OptionsFileDialog) => {
+    const win = BrowserWindow.getFocusedWindow();
+    if (!win) return [];
 
-    ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
-      const { size, outputPath } = await compress(options);
-      return { size, outputPath };
-    });
+    const result = await dialog.showOpenDialog(win, { properties: args.options, filters: args.filters });
 
-    ipcMain.handle('get-system-specs', async () => {
-      return await getSystemSpecs();
-    });
-  },
-});
-
-/**
- * Inicializa a aplicação
- */
-function initApp(): void {
-  app.whenReady().then(() => {
-    // Configura app ID para Windows
-    electronApp.setAppUserModelId(APP_CONFIG.APP_ID);
-
-    // Otimiza atalhos
-    app.on('browser-window-created', (_, window) => optimizer.watchWindowShortcuts(window));
-
-    // Inicializa handlers IPC
-    IPC_HANDLERS.init();
-
-    // Cria janela principal
-    createMainWindow();
-
-    // Recria janela no macOS quando clicar no dock
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
-    });
+    return result.filePaths;
   });
 
-  // Fecha app em todas plataformas exceto macOS
+  ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
+    const { size, outputPath } = await compress(options);
+    return { size, outputPath };
+  });
+
+  ipcMain.handle('get-system-specs', async () => {
+    return await getSystemSpecs();
+  });
+}
+
+function initApp(): void {
+  app.whenReady().then(() => {
+    setupApp();
+    registerIpcHandlers();
+    createMainWindow();
+    setupMacOSActivate();
+  });
+
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
   });
 }
 
-// Inicialização
+function setupApp() {
+  electronApp.setAppUserModelId(APP_CONFIG.APP_ID);
+  app.on('browser-window-created', (_, window) => optimizer.watchWindowShortcuts(window));
+}
+
+function setupMacOSActivate() {
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+  });
+}
+
 initApp();

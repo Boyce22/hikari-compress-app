@@ -139,15 +139,12 @@ export const Settings = () => {
           </h4>
 
           <div className="flex items-center gap-">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleBackgroundImageUpload}
-              className="hidden"
-              id="background-upload"
-            />
             <label htmlFor="background-upload">
-              <Button variant="outline" className="cursor-pointer gap-2 bg-transparent">
+              <Button
+                variant="outline"
+                onClick={handleBackgroundImageUpload}
+                className="cursor-pointer gap-2 bg-transparent"
+              >
                 <span className="flex items-center gap-2">
                   <ImageIcon className="w-4 h-4" />
                   Escolher Imagem
@@ -172,10 +169,6 @@ export const Settings = () => {
               mantida mesmo após fechar ou reiniciar a aplicação.
             </p>
           </div>
-
-          {settings.backgroundImage && (
-            <p className="text-sm text-muted-foreground">Imagem de fundo aplicada com sucesso</p>
-          )}
         </div>
 
         <Separator />

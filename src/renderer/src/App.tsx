@@ -14,10 +14,11 @@ import { FileUploadZone } from '@components/FileUploadZone';
 import { Settings } from './components/Settings';
 import { useSettings } from '@hooks/useSettings';
 import { HikariTabs } from '@components/HikariTabs';
-import { useVideoFiles } from '@hooks/useVideoFiles';
 import { HistoryItem } from '@shared/types/HistoryItem';
 import { useFileFormatter } from '@hooks/useFileFormatter';
 import { useSystemSpecifications } from './hooks/useSystemSpecifications';
+import { useVideoFiles } from './hooks/useBackgroundImage';
+import { useSettingsContext } from './providers/SettingsProvider';
 
 const HISTORY: HistoryItem[] = [
   {
@@ -47,9 +48,9 @@ const HISTORY: HistoryItem[] = [
 ];
 
 export const HikariCompressApp: React.FC = () => {
+  const { settings } = useSettingsContext();
   const { formatFileSize } = useFileFormatter();
-  const { settings, setSettings } = useSettings();
-  const { specifications, getSystemSpecs } = useSystemSpecifications();
+  const { getSystemSpecs } = useSystemSpecifications();
   const { videoFiles, handleFileUpload, removeFile, startCompression } = useVideoFiles();
 
   useEffect(() => {
@@ -91,7 +92,7 @@ export const HikariCompressApp: React.FC = () => {
                   </Card>
                 )}
               </div>
-              <QuickSettings settings={settings} onSettingsChange={setSettings} />
+              <QuickSettings />
             </div>
           </TabsContent>
 

@@ -5,6 +5,7 @@ import { Switch } from '@components/ui/switch';
 import { Separator } from '@components/ui/separator';
 import { TooltipContent, TooltipTrigger, Tooltip } from './ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
+import { useSettingsContext } from '@renderer/providers/SettingsProvider';
 
 interface QuickSettingsProps {
   settings: {
@@ -13,7 +14,6 @@ interface QuickSettingsProps {
     keepSubtitles: boolean;
     keepAudio: boolean;
   };
-  onSettingsChange: (settings: any) => void;
 }
 
 const CLASSES = Object.freeze({
@@ -62,13 +62,15 @@ const SWITCH_OPTIONS = Object.freeze([
   },
 ]);
 
-export function QuickSettings({ settings, onSettingsChange }: QuickSettingsProps) {
+export function QuickSettings() {
+  const { settings, setSettings } = useSettingsContext();
+  
   const handleSelectChange = (key: string, value: string) => {
-    onSettingsChange({ ...settings, [key]: value });
+    setSettings({ ...settings, [key]: value });
   };
 
   const handleSwitchChange = (key: string, checked: boolean) => {
-    onSettingsChange({ ...settings, [key]: checked });
+    setSettings({ ...settings, [key]: checked });
   };
 
   return (

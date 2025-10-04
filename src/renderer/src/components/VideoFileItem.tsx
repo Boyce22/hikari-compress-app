@@ -1,6 +1,7 @@
 import { Badge } from '@components/ui/badge';
 import { Button } from '@components/ui/button';
 import { Progress } from '@components/ui/progress';
+import { StatusProcessing } from '@shared/types/StatusProcessing';
 import { VideoFile } from '@shared/types/VideoFile';
 import { Play, Download, Trash2, HardDrive, Clock } from 'lucide-react';
 
@@ -64,14 +65,14 @@ export function VideoFileItem({ file, onStartCompression, onRemoveFile, formatFi
             {STATUS_LABELS[status]}
           </Badge>
 
-          {status === 'waiting' && (
+          {status === StatusProcessing.WAITING && (
             <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90" onClick={() => onStartCompression(id)}>
               <Play className="w-4 h-4" />
               Iniciar
             </Button>
           )}
 
-          {status === 'completed' && (
+          {status === StatusProcessing.COMPLETED && (
             <Button size="sm" variant="outline" className="gap-2 border-success/30 text-success hover:bg-success/10">
               <Download className="w-4 h-4" />
               Baixar
