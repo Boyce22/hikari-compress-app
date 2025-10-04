@@ -4,7 +4,6 @@ export function HikariHeader() {
       <div className="flex items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold gradient-text mb-1">Hikari Compress</h1>
-          <p className="text-muted-foreground">Compressão profissional de vídeos de anime</p>
         </div>
       </div>
     </div>

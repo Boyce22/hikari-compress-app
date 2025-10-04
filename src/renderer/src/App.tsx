@@ -91,7 +91,7 @@ export const HikariCompressApp: React.FC = () => {
                   </Card>
                 )}
               </div>
-              <QuickSettings settings={settings} onSettingsChange={setSettings} specifications={specifications} />
+              <QuickSettings settings={settings} onSettingsChange={setSettings} />
             </div>
           </TabsContent>
 

@@ -5,7 +5,6 @@ import { Switch } from '@components/ui/switch';
 import { Separator } from '@components/ui/separator';
 import { TooltipContent, TooltipTrigger, Tooltip } from './ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
-import { SystemSpecifications } from '@shared/types/SystemSpecifications';
 
 interface QuickSettingsProps {
   settings: {
@@ -14,7 +13,6 @@ interface QuickSettingsProps {
     keepSubtitles: boolean;
     keepAudio: boolean;
   };
-  specifications: SystemSpecifications;
   onSettingsChange: (settings: any) => void;
 }
 
@@ -64,8 +62,7 @@ const SWITCH_OPTIONS = Object.freeze([
   },
 ]);
 
-export function QuickSettings({ settings, onSettingsChange, specifications }: QuickSettingsProps) {
-  console.log({ specifications });
+export function QuickSettings({ settings, onSettingsChange }: QuickSettingsProps) {
   const handleSelectChange = (key: string, value: string) => {
     onSettingsChange({ ...settings, [key]: value });
   };
