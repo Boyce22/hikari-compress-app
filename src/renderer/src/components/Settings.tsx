@@ -2,11 +2,12 @@ import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
+import { Switch } from './ui/switch';
 import { Separator } from './ui/separator';
+import { useSettings } from '@hooks/useSettings';
+import { CarouselContent, CarouselItem, Carousel } from './ui/carousel';
 import { ImageIcon, Video, Gauge, Zap, Monitor, Film, Music, Volume2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Switch } from './ui/switch';
-import { useSettings } from '@hooks/useSettings';
 
 export const VIDEO_CODECS = [
   { value: 'h264', label: 'H.264' },
@@ -48,6 +49,17 @@ export const AUDIO_CODECS = [
   { value: 'mp3', label: 'MP3' },
   { value: 'opus', label: 'Opus' },
   { value: 'copy', label: 'Copiar Original' },
+];
+
+const ANIME_BACKGROUNDS = [
+  { id: 1, url: 'backgrounds:///OceanWaves-658f859a-e9ad-4e6f-af78-6cbac307dc03.jpg', name: 'Cyberpunk City' },
+  { id: 2, url: '/anime-cherry-blossom-sakura.jpg', name: 'Cherry Blossom' },
+  { id: 3, url: '/anime-sunset-sky-clouds.jpg', name: 'Sunset Sky' },
+  { id: 4, url: '/anime-tokyo-street-neon.jpg', name: 'Tokyo Street' },
+  { id: 5, url: '/anime-mountain-landscape.jpg', name: 'Mountain View' },
+  { id: 6, url: '/anime-ocean-beach-sunset.jpg', name: 'Ocean Beach' },
+  { id: 7, url: '/anime-forest-nature-green.jpg', name: 'Forest Path' },
+  { id: 8, url: '/anime-space-stars-galaxy.jpg', name: 'Space Galaxy' },
 ];
 
 export const AUDIO_BITRATES = ['96', '128', '192', '256', '320'];
@@ -114,6 +126,10 @@ const SwitchField = ({
 export const Settings = () => {
   const { settings, updateSetting, handleBackgroundImageUpload, removeBackgroundImage } = useSettings();
 
+  const applyCarouselBackground = (imageUrl: string) => {
+    updateSetting('backgroundImage', imageUrl);
+  };
+
   return (
     <Card className="p-8 max-w-4xl mx-auto bg-card border">
       <h3 className="text-xl font-semibold mb-8">Configurações Avançadas</h3>
@@ -137,6 +153,41 @@ export const Settings = () => {
             <ImageIcon className="w-5 h-5" />
             Personalização da Interface
           </h4>
+
+          <p className="text-sm text-muted-foreground mt-1">
+            Escolha uma imagem de fundo da galeria ou faça upload de uma imagem personalizada. Arraste para navegar pela
+            galeria.
+          </p>
+
+          <div className="space-y-4">
+            <Label className="text-sm font-medium">Galeria de fundos</Label>
+            <Carousel
+              opts={{
+                align: 'start',
+                loop: true,
+                dragFree: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {ANIME_BACKGROUNDS.map((bg) => (
+                  <CarouselItem key={bg.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    <div
+                      onClick={() => applyCarouselBackground(bg.url)}
+                      className={`cursor-pointer rounded-lg overflow-hidden border-2 transition-all hover:border-primary ${
+                        settings.backgroundImage === bg.url ? 'border-primary ring-2 ring-primary/50' : 'border-border'
+                      }`}
+                    >
+                      <img src={bg.url || '/placeholder.svg'} alt={bg.name} className="w-full h-32 object-cover" />
+                      <div className="p-2 bg-card/80 backdrop-blur-sm">
+                        <p className="text-xs font-medium text-center">{bg.name}</p>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
 
           <div className="flex items-center gap-">
             <label htmlFor="background-upload">
@@ -162,12 +213,6 @@ export const Settings = () => {
                 Remover
               </Button>
             )}
-          </div>
-          <div className="mt-2 flex items-start gap-2 ">
-            <p className="text-sm text-muted-foreground mt-1">
-              Personalize a aparência do aplicativo com uma imagem de fundo. A seleção será aplicada imediatamente e
-              mantida mesmo após fechar ou reiniciar a aplicação.
-            </p>
           </div>
         </div>
 

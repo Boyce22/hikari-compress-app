@@ -1,11 +1,12 @@
-import { join } from 'path';
+import fs from 'fs';
+import { join, basename, extname } from 'path';
 import { compress } from './node/compress';
 import icon from '../../resources/toji-pfp.jpg?asset';
 import { getSystemSpecs } from './node/get-system-specs';
 import { ConvertOptions } from '@shared/types/ConvertOptions';
 import { OptionsFileDialog } from '@shared/types/OptionsFileDialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, screen, dialog, protocol, net } from 'electron';
 
 const APP_CONFIG = Object.freeze({
   APP_ID: 'com.electron',
@@ -66,6 +67,24 @@ function registerIpcHandlers() {
     return result.filePaths;
   });
 
+  ipcMain.handle('store-image', async (_, originalPath: string) => {
+    const userDataPath = app.getPath('userData');
+    const backgroundsPath = join(userDataPath, 'backgrounds');
+
+    fs.mkdirSync(backgroundsPath, { recursive: true });
+
+    const ext = extname(originalPath);
+    const name = basename(originalPath, ext);
+    const sanitizedName = name.replace(/[^a-zA-Z0-9_-]/g, '');
+    const hash = crypto.randomUUID();
+    const destName = `${sanitizedName}-${hash}${ext}`;
+    const dest = join(backgroundsPath, destName);
+
+    fs.copyFileSync(originalPath, dest);
+
+    return `backgrounds:///${destName}`;
+  });
+
   ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
     const { size, outputPath } = await compress(options);
     return { size, outputPath };
@@ -79,6 +98,7 @@ function registerIpcHandlers() {
 function initApp(): void {
   app.whenReady().then(() => {
     setupApp();
+    registerBackgroundProtocol();
     registerIpcHandlers();
     createMainWindow();
     setupMacOSActivate();
@@ -87,6 +107,39 @@ function initApp(): void {
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
   });
+}
+
+function registerBackgroundProtocol() {
+  protocol.handle('backgrounds', async (request) => {
+    const url = new URL(request.url);
+    const fileName = url.pathname.replace(/^\//, '');
+    const filePath = join(app.getPath('userData'), 'backgrounds', fileName);
+
+    try {
+      const data = await fs.promises.readFile(filePath);
+      const ext = extname(filePath).slice(1).toLowerCase();
+      const mime = getMimeType(ext);
+
+      return new Response(data, {
+        headers: { 'Content-Type': mime },
+      });
+    } catch (err) {
+      console.error('[backgrounds protocol]', err);
+      return new Response('Not Found', { status: 404 });
+    }
+  });
+}
+
+function getMimeType(ext: string): string {
+  const mimeMap: Record<string, string> = {
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    svg: 'image/svg+xml',
+  };
+  return mimeMap[ext] || 'application/octet-stream';
 }
 
 function setupApp() {

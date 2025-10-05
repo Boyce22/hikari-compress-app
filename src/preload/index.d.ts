@@ -9,6 +9,7 @@ declare global {
       openFileDialog: (options: OptionsFileDialog) => Promise<string[]>;
       compressVideo: (options: ConvertOptions) => Promise<{ size: number; outputPath: string }>;
       getSystemSpecs: () => Promise<SystemSpecifications>;
+      storeImage: (originalPath: string) => Promise<string>;
     };
     electron: typeof electronAPI;
   }

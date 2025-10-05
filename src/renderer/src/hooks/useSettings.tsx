@@ -29,7 +29,9 @@ export const useSettings = () => {
 
     if (!files?.length) return;
 
-    updateSetting('backgroundImage', files[0]);
+    const storedPath: string = await window.api.storeImage(files[0]);
+
+    updateSetting('backgroundImage', storedPath);
   }, []);
 
   const removeBackgroundImage = useCallback(() => updateSetting('backgroundImage', ''), []);

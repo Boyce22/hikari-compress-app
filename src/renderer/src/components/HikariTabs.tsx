@@ -21,8 +21,6 @@ const TRIGGER_CLASSES = Object.freeze(
 
 /** Componente modular de abas */
 export function HikariTabs({ value, onValueChange }: HikariTabsProps) {
-  console.log(value, onValueChange);
-
   return (
     <div className="flex justify-center">
       <TabsList className="grid grid-cols-3 w-full h-12 max-w-md rounded-xl border border-border/40 bg-card/80 backdrop-blur p-1 shadow-sm">
