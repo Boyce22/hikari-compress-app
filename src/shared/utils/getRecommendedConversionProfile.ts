@@ -1,5 +1,5 @@
-import { RecommendedProfile } from '@shared/types/RecommendedProfile';
-import { SystemSpecifications } from '@shared/types/SystemSpecifications';
+import { RecommendedProfile } from '@/shared/types/RecommendedProfile';
+import { SystemSpecifications } from '@/shared/types/SystemSpecifications';
 
 export const getRecommendedConversionProfile = (specs: SystemSpecifications): RecommendedProfile => {
   const { cpu, cpuCores, gpu, gpuAvailable, ram, os } = specs;

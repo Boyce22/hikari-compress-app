@@ -5,17 +5,19 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
-    "src/shared/**/*.ts"
+    "src/shared/**/*.ts",
+    "src/renderer/assets/*.jpg"
   ],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@renderer/*": ["src/renderer/src/*"],
-      "@hooks/*": ["src/renderer/src/hooks/*"],
-      "@components/*": ["src/renderer/src/components/*"]
+      "@/shared/*": ["src/shared/*"],
+      "@/renderer/*": ["src/renderer/src/*"],
+      "@/hooks/*": ["src/renderer/src/hooks/*"],
+      "@/components/*": ["src/renderer/src/components/*"],
+      "@/assets/*": ["src/renderer/assets/*"]
     }
   }
 }

@@ -1,5 +1,5 @@
 import { FileVideo, History, Settings } from 'lucide-react';
-import { TabsList, TabsTrigger } from '@components/ui/tabs';
+import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface HikariTabsProps {
   value: string;

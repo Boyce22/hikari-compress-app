@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { FiltersOptions } from '@shared/types/FiltersOptions';
+import { FiltersOptions } from '@/shared/types/FiltersOptions';
 
 export const useSettings = () => {
   const [settings, setSettings] = useState({

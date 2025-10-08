@@ -1,4 +1,4 @@
-import { useSettings } from '@renderer/hooks/useSettings';
+import { useSettings } from '@/renderer/hooks/useSettings';
 import { createContext, useContext, ReactNode } from 'react';
 
 type SettingsHook = ReturnType<typeof useSettings>;

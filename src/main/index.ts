@@ -3,8 +3,8 @@ import { join, basename, extname } from 'path';
 import { compress } from './node/compress';
 import icon from '../../resources/toji-pfp.jpg?asset';
 import { getSystemSpecs } from './node/get-system-specs';
-import { ConvertOptions } from '@shared/types/ConvertOptions';
-import { OptionsFileDialog } from '@shared/types/OptionsFileDialog';
+import { ConvertOptions } from '@/shared/types/ConvertOptions';
+import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, screen, dialog, protocol, net } from 'electron';
 

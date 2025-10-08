@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
-import { OptionsFileDialog } from '@shared/types/OptionsFileDialog';
-import { SystemSpecifications } from '@shared/types/SystemSpecifications';
+import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
+import { SystemSpecifications } from '@/shared/types/SystemSpecifications';
 
 declare global {
   interface Window {

@@ -1,20 +1,11 @@
 import { InfoIcon, Settings } from 'lucide-react';
-import { Card } from '@components/ui/card';
-import { Label } from '@components/ui/label';
-import { Switch } from '@components/ui/switch';
-import { Separator } from '@components/ui/separator';
+import { Card } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
 import { TooltipContent, TooltipTrigger, Tooltip } from './ui/tooltip';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
-import { useSettingsContext } from '@renderer/providers/SettingsProvider';
-
-interface QuickSettingsProps {
-  settings: {
-    codec: string;
-    quality: string;
-    keepSubtitles: boolean;
-    keepAudio: boolean;
-  };
-}
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useSettingsContext } from '@/renderer/providers/SettingsProvider';
 
 const CLASSES = Object.freeze({
   selectTrigger: 'bg-muted/50 border-border/50 hover:border-primary/30 transition-colors',

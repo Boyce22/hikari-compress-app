@@ -1,8 +1,8 @@
-import { Badge } from '@components/ui/badge';
-import { Button } from '@components/ui/button';
-import { Progress } from '@components/ui/progress';
-import { StatusProcessing } from '@shared/types/StatusProcessing';
-import { VideoFile } from '@shared/types/VideoFile';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { StatusProcessing } from '@/shared/types/StatusProcessing';
+import { VideoFile } from '@/shared/types/VideoFile';
 import { Play, Download, Trash2, HardDrive, Clock } from 'lucide-react';
 
 interface VideoFileItemProps {

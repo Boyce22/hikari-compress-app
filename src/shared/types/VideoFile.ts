@@ -1,4 +1,4 @@
-import type { StatusProcessing } from '@shared/types/StatusProcessing';
+import type { StatusProcessing } from '@/shared/types/StatusProcessing';
 
 export interface VideoFile {
   id: string;

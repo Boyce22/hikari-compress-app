@@ -2,19 +2,19 @@ import type React from 'react';
 import { useEffect } from 'react';
 import { Download } from 'lucide-react';
 
-import { Card } from '@components/ui/card';
-import { Badge } from '@components/ui/badge';
-import { Button } from '@components/ui/button';
-import { HikariHeader } from '@components/HikariHeader';
-import { Tabs, TabsContent } from '@components/ui/tabs';
-import { QuickSettings } from '@components/QuickSettings';
-import { VideoFileItem } from '@components/VideoFileItem';
-import { FileUploadZone } from '@components/FileUploadZone';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { HikariHeader } from '@/components/HikariHeader';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { QuickSettings } from '@/components/QuickSettings';
+import { VideoFileItem } from '@/components/VideoFileItem';
+import { FileUploadZone } from '@/components/FileUploadZone';
 
 import { Settings } from './components/Settings';
-import { HikariTabs } from '@components/HikariTabs';
-import { HistoryItem } from '@shared/types/HistoryItem';
-import { useFileFormatter } from '@hooks/useFileFormatter';
+import { HikariTabs } from '@/components/HikariTabs';
+import { HistoryItem } from '@/shared/types/HistoryItem';
+import { useFileFormatter } from '@/hooks/useFileFormatter';
 import { useSystemSpecifications } from './hooks/useSystemSpecifications';
 import { useVideoFiles } from './hooks/useBackgroundImage';
 
