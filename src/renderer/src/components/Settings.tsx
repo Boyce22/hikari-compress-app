@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { Card } from './ui/card';
 import { Input } from './ui/input';
@@ -10,7 +10,6 @@ import { CarouselContent, CarouselItem, Carousel } from './ui/carousel';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 import { BACKGROUNDS } from '../lib/background';
-import { useSettings } from '@/hooks/useSettings';
 import { BackgroundImage } from '@/shared/types/BackgroundImage';
 
 import {
@@ -25,7 +24,11 @@ import {
   LucideUpload,
   Folder,
   SettingsIcon,
+  MemoryStick,
 } from 'lucide-react';
+
+import { useSettingsContext } from '../providers/SettingsProvider';
+import { SystemSpecifications } from '@/shared/types/SystemSpecifications';
 
 interface Option {
   value: string;
@@ -65,6 +68,10 @@ interface CarouselItemMemoProps {
   onSelect: () => void;
 }
 
+interface SettingsProps {
+  specifications: SystemSpecifications;
+}
+
 const VIDEO_CODECS: Option[] = [
   { value: 'h264', label: 'H.264' },
   { value: 'h265', label: 'H.265 (HEVC)' },
@@ -101,7 +108,23 @@ const AUDIO_CODECS: Option[] = [
   { value: 'opus', label: 'Opus' },
   { value: 'copy', label: 'Copiar Original' },
 ];
-const AUDIO_BITRATES: string[] = ['96', '128', '192', '256', '320'];
+
+const MEMORY: Option[] = [
+  { value: '2', label: '2GB' },
+  { value: '4', label: '4GB' },
+  { value: '8', label: '8GB' },
+  { value: '16', label: '16GB' },
+  { value: '32', label: '32GB' },
+  { value: '64', label: '64GB' },
+];
+
+const AUDIO_BITRATES: Option[] = [
+  { value: '96', label: '96 kbps' },
+  { value: '128', label: '128 kbps' },
+  { value: '192', label: '192 kbps' },
+  { value: '256', label: '256 kbps' },
+  { value: '320', label: '320 kbps' },
+];
 
 const ANIME_BACKGROUNDS: BackgroundImage[] = [
   { id: '1', background: BACKGROUNDS.ANIME_BG_1, name: 'Osaka' },
@@ -195,15 +218,15 @@ const CarouselItemMemo = memo(({ bg, isActive, onSelect }: CarouselItemMemoProps
   </CarouselItem>
 ));
 
-export const Settings = memo(() => {
-  const { settings, updateSetting, handleBackgroundImageUpload, removeBackgroundImage } = useSettings();
+export const Settings = memo(({ specifications }: SettingsProps) => {
+  const { settings, updateSetting, handleBackgroundImageUpload, removeBackgroundImage } = useSettingsContext();
 
   const handleApplyBackground = useCallback(
     (bg: BackgroundImage) => updateSetting('backgroundImage', bg),
     [updateSetting],
   );
 
-  const audioBitrateOptions = useMemo(() => AUDIO_BITRATES.map((b) => ({ value: b, label: `${b} kbps` })), []);
+  const availableRam = MEMORY.filter((ram) => Number(ram.value) <= Number(specifications?.ram) * 0.8);
 
   if (!settings) return null;
 
@@ -317,6 +340,13 @@ export const Settings = memo(() => {
               options={FPS}
               onChange={(v) => updateSetting('fps', parseInt(v, 10))}
             />
+            <SelectField
+              label="Memória Ram"
+              icon={MemoryStick}
+              value={settings.ram}
+              options={availableRam}
+              onChange={(v) => updateSetting('ram', v)}
+            />
           </div>
         </section>
 
@@ -337,7 +367,7 @@ export const Settings = memo(() => {
               label="Bitrate (kbps)"
               icon={Gauge}
               value={settings.audioBitrate}
-              options={audioBitrateOptions}
+              options={AUDIO_BITRATES}
               onChange={(v) => updateSetting('audioBitrate', v)}
             />
 

@@ -20,7 +20,7 @@ import { History } from './components/History';
 
 export const HikariCompressApp: React.FC = () => {
   const { formatFileSize } = useFileFormatter();
-  const { getSystemSpecs } = useSystemSpecifications();
+  const { getSystemSpecs, specifications } = useSystemSpecifications();
   const { videoFiles, handleFileUpload, removeFile, startCompression } = useVideoFiles();
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const HikariCompressApp: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="settings">
-            <Settings />
+            <Settings specifications={specifications} />
           </TabsContent>
 
           <TabsContent value="history">

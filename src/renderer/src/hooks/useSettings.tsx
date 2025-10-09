@@ -8,6 +8,7 @@ interface Settings {
   preset: string;
   resolution: string;
   fps: number;
+  ram: string;
   keepSubtitles: boolean;
   keepAudio: boolean;
   audioCodec: string;
@@ -28,6 +29,7 @@ export const useSettings = () => {
     keepAudio: true,
     audioCodec: 'aac',
     audioBitrate: '128',
+    ram: '2',
     hardwareAcceleration: false,
     outputPath: '/Downloads/HikariCompress',
     backgroundImage: null,
