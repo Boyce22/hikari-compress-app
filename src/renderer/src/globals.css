@@ -110,7 +110,30 @@
 }
 
 @layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* fundo preto da paleta */
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  /* indicador verde */
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-glow));
+  }
+
+  /* Firefox */
   * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary)) hsl(var(--background));
     @apply border-border;
   }
 

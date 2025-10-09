@@ -1,8 +1,24 @@
 import { useState, useCallback } from 'react';
 import { FiltersOptions } from '@/shared/types/FiltersOptions';
+import { BackgroundImage } from '@/shared/types/BackgroundImage';
+
+interface Settings {
+  codec: string;
+  quality: string;
+  preset: string;
+  resolution: string;
+  fps: number;
+  keepSubtitles: boolean;
+  keepAudio: boolean;
+  audioCodec: string;
+  audioBitrate: string;
+  hardwareAcceleration: boolean;
+  outputPath: string;
+  backgroundImage: BackgroundImage | null;
+}
 
 export const useSettings = () => {
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<Settings>({
     codec: 'h264',
     quality: '23',
     preset: 'medium',
@@ -14,10 +30,12 @@ export const useSettings = () => {
     audioBitrate: '128',
     hardwareAcceleration: false,
     outputPath: '/Downloads/HikariCompress',
-    backgroundImage: '',
+    backgroundImage: null,
   });
 
-  const updateSetting = (key: string, value: any) => setSettings((prev) => ({ ...prev, [key]: value }));
+  const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleBackgroundImageUpload = useCallback(async () => {
     if (!window.api) return;
@@ -31,10 +49,17 @@ export const useSettings = () => {
 
     const storedPath: string = await window.api.storeImage(files[0]);
 
-    updateSetting('backgroundImage', storedPath);
+    updateSetting('backgroundImage', {
+      id: crypto.randomUUID(),
+      name: files[0],
+      background: {
+        preview: storedPath,
+        full: storedPath,
+      },
+    });
   }, []);
 
-  const removeBackgroundImage = useCallback(() => updateSetting('backgroundImage', ''), []);
+  const removeBackgroundImage = useCallback(() => updateSetting('backgroundImage', null), []);
 
   return {
     settings,
