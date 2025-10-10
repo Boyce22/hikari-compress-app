@@ -6,7 +6,7 @@ import { getSystemSpecs } from './node/get-system-specs';
 import { ConvertOptions } from '@/shared/types/ConvertOptions';
 import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { app, shell, BrowserWindow, ipcMain, screen, dialog, protocol, net } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, screen, dialog, protocol } from 'electron';
 
 const APP_CONFIG = Object.freeze({
   APP_ID: 'com.electron',

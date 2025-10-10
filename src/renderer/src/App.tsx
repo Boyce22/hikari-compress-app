@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { Videos } from '@/components/Videos';
 import { History as HistoryComponent } from '@/components/History';
-import { Settings as SettingsComponent } from './components/Settings';
+import { Settings as SettingsComponent } from './components/settings/Settings';
 
 const TABS = [
   { value: 'compress', label: 'Comprimir', icon: FileVideo },
