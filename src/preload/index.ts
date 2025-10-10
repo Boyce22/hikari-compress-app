@@ -5,6 +5,9 @@ import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
 
 // Custom APIs for renderer
 const api = {
+  close: async () => await ipcRenderer.invoke('close'),
+  maximizeRestore: async () => await ipcRenderer.invoke('maximize-restore'),
+  minimize: async () => await ipcRenderer.invoke('minimize'),
   openFileDialog: async (args: OptionsFileDialog) => await ipcRenderer.invoke('open-file-dialog', args),
   compressVideo: async (args: ConvertOptions) => await ipcRenderer.invoke('compress-video', args),
   getSystemSpecs: async () => await ipcRenderer.invoke('get-system-specs'),

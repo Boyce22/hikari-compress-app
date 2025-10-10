@@ -10,6 +10,9 @@ declare global {
       compressVideo: (options: ConvertOptions) => Promise<{ size: number; outputPath: string }>;
       getSystemSpecs: () => Promise<SystemSpecifications>;
       storeImage: (originalPath: string) => Promise<string>;
+      close: () => Promise<void>;
+      maximizeRestore: () => Promise<boolean>;
+      minimize: () => Promise<void>;
     };
     electron: typeof electronAPI;
   }
