@@ -35,7 +35,7 @@ export function FileUploadZone({ onFileUpload }: FileUploadZoneProps) {
           </Button>
         </div>
 
-        <p className={CLASSES.footer}>Suporta: MP4, MKV, MOV, WEBM • Máximo 2GB por arquivo</p>
+        <p className={CLASSES.footer}>Suporta: MP4, MKV, MOV, WEBM • Máximo 5GB por arquivo</p>
       </div>
     </Card>
   );

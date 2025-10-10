@@ -1,5 +1,5 @@
-import { Github, FileText } from 'lucide-react';
 import { Button } from './ui/button';
+import { Github, FileText } from 'lucide-react';
 
 export function HikariHeader() {
   return (

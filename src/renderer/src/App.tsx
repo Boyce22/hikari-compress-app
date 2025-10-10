@@ -1,81 +1,52 @@
 import type React from 'react';
-import { useEffect } from 'react';
+import { FileVideo, History, Settings } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { HikariHeader } from '@/components/HikariHeader';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { QuickSettings } from '@/components/QuickSettings';
-import { VideoFileItem } from '@/components/VideoFileItem';
-import { FileUploadZone } from '@/components/FileUploadZone';
+import { Videos } from '@/components/Videos';
+import { History as HistoryComponent } from '@/components/History';
+import { Settings as SettingsComponent } from './components/Settings';
 
-import { Settings } from './components/Settings';
-import { HikariTabs } from '@/components/HikariTabs';
+const TABS = [
+  { value: 'compress', label: 'Comprimir', icon: FileVideo },
+  { value: 'history', label: 'Histórico', icon: History },
+  { value: 'settings', label: 'Configurações', icon: Settings },
+];
 
-import { useFileFormatter } from '@/hooks/useFileFormatter';
-import { useSystemSpecifications } from './hooks/useSystemSpecifications';
-import { useVideoFiles } from './hooks/useBackgroundImage';
-import { HikariFooter } from './components/HikariFooter';
-import { History } from './components/History';
+const TRIGGER_CLASSES =
+  'cursor-pointer flex items-center justify-center gap-2 h-10 rounded-lg font-medium ' +
+  'text-foreground/70 hover:text-foreground transition-all duration-300 ' +
+  'data-[state=active]:bg-primary/15 data-[state=active]:text-primary ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50';
 
 export const HikariCompressApp: React.FC = () => {
-  const { formatFileSize } = useFileFormatter();
-  const { getSystemSpecs, specifications } = useSystemSpecifications();
-  const { videoFiles, handleFileUpload, removeFile, startCompression } = useVideoFiles();
-
-  useEffect(() => {
-    getSystemSpecs();
-  }, []);
-
   return (
-    <div className="min-h-screen container mx-auto p-6 max-w-7xl flex flex-col items-center justify-center fade-in">
-      <HikariHeader />
-
-      <div className="w-full max-w-5xl">
-        <Tabs defaultValue="compress" className="space-y-8">
-          <HikariTabs value="compress" onValueChange={() => {}} />
+    <div className="self-center container mx-auto p-6 max-w-7xl flex flex-col items-center justify-center fade-in min-h-screen">
+      <div className="w-full max-w-5xl flex flex-col items-center">
+        <Tabs defaultValue="compress" className="w-full flex flex-col items-center space-y-8">
+          <div className="flex justify-center w-full mb-8">
+            <TabsList className="grid grid-cols-3 w-full max-w-md h-12 rounded-xl border border-border/40 bg-card/80 backdrop-blur p-1 shadow-sm">
+              {TABS.map(({ value, label, icon: Icon }) => (
+                <TabsTrigger key={value} value={value} className={TRIGGER_CLASSES}>
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <TabsContent value="compress">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              <div className="xl:col-span-2 space-y-6">
-                <FileUploadZone onFileUpload={handleFileUpload} />
-
-                {videoFiles.length > 0 && (
-                  <Card className="p-6 card-clean">
-                    <div className="flex items-center justify-between mb-6">
-                      <h3 className="text-xl font-semibold text-foreground">Fila de Compressão</h3>
-                      <Badge variant="outline" className="border-primary/30 text-primary bg-primary/5">
-                        {videoFiles.length} arquivo(s)
-                      </Badge>
-                    </div>
-                    <div className="space-y-4">
-                      {videoFiles.map((file) => (
-                        <VideoFileItem
-                          key={file.id}
-                          file={file}
-                          onStartCompression={startCompression}
-                          onRemoveFile={removeFile}
-                          formatFileSize={formatFileSize}
-                        />
-                      ))}
-                    </div>
-                  </Card>
-                )}
-              </div>
-              <QuickSettings />
-            </div>
+            <Videos />
           </TabsContent>
 
           <TabsContent value="settings">
-            <Settings specifications={specifications} />
+            <SettingsComponent />
           </TabsContent>
 
           <TabsContent value="history">
-            <History />
+            <HistoryComponent />
           </TabsContent>
         </Tabs>
       </div>
-      <HikariFooter />
     </div>
   );
 };

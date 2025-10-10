@@ -21,11 +21,12 @@ function createMainWindow(): BrowserWindow {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   const window = new BrowserWindow({
-    titleBarStyle: process.platform === 'darwin' ? 'hidden' : undefined,
     width,
     height,
+    frame: false,
     fullscreenable: true,
     autoHideMenuBar: true,
+    titleBarStyle: 'hiddenInset',
     icon: process.platform === 'linux' ? APP_CONFIG.ICON_LINUX_PATH : APP_CONFIG.ICON_PATH,
     webPreferences: {
       preload: APP_CONFIG.PRELOAD_PATH,

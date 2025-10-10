@@ -5,7 +5,7 @@ import { FiltersOptions } from '@/shared/types/FiltersOptions';
 import { StatusProcessing } from '@/shared/types/StatusProcessing';
 
 export const useVideoFiles = () => {
-  const [videoFiles, setVideoFiles] = useState<VideoFile[]>([]);
+  const [videos, setVideos] = useState<VideoFile[]>([]);
 
   const handleFileUpload = useCallback(async () => {
     if (!window.api) return;
@@ -22,12 +22,12 @@ export const useVideoFiles = () => {
       return { id: `${Date.now()}-${idx}`, name, size: 0, status: StatusProcessing.WAITING, progress: 0 };
     });
 
-    setVideoFiles((prev) => [...prev, ...newFiles]);
+    setVideos((prev) => [...prev, ...newFiles]);
   }, []);
 
   const removeFile = useCallback(() => {}, []);
 
   const startCompression = useCallback(() => {}, []);
 
-  return { videoFiles, handleFileUpload, removeFile, startCompression, setVideoFiles };
+  return { videos, handleFileUpload, removeFile, startCompression, setVideos };
 };

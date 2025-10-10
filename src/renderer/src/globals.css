@@ -173,6 +173,40 @@
     animation: fade-in 0.4s ease-out;
   }
 
+  .navigation-buttons button {
+    width: 46px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: hsl(0 0% 65%);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .navigation-buttons button:hover {
+    background: hsl(0 0% 18%);
+  }
+
+  .navigation-buttons button:active {
+    background: hsl(0 0% 14%);
+  }
+
+  #min-btn:hover {
+    color: hsl(0 0% 85%);
+  }
+
+  #max-btn:hover {
+    color: hsl(142 50% 60%);
+  }
+
+  #close-btn:hover {
+    background: hsl(0 65% 50%);
+    color: white;
+  }
+
   @keyframes fade-in {
     from {
       opacity: 0;

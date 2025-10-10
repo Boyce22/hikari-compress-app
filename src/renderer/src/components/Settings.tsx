@@ -23,20 +23,15 @@ import {
   Volume2,
   LucideUpload,
   Folder,
-  SettingsIcon,
   MemoryStick,
 } from 'lucide-react';
 
+import { SectionConfig } from './SectionConfig';
 import { useSettingsContext } from '../providers/SettingsProvider';
-import { SystemSpecifications } from '@/shared/types/SystemSpecifications';
+import { useSystemSpecifications } from '../hooks/useSystemSpecifications';
 
 interface Option {
   value: string;
-  label: string;
-}
-
-interface SectionConfigProps {
-  icon: React.ComponentType<{ className?: string }>;
   label: string;
 }
 
@@ -66,10 +61,6 @@ interface CarouselItemMemoProps {
   bg: BackgroundImage;
   isActive: boolean;
   onSelect: () => void;
-}
-
-interface SettingsProps {
-  specifications: SystemSpecifications;
 }
 
 const VIDEO_CODECS: Option[] = [
@@ -136,15 +127,6 @@ const ANIME_BACKGROUNDS: BackgroundImage[] = [
   { id: '7', background: BACKGROUNDS.ANIME_BG_7, name: 'Night' },
   { id: '8', background: BACKGROUNDS.ANIME_BG_8, name: 'Moon' },
 ];
-
-const SectionConfig = memo(({ icon: Icon, label }: SectionConfigProps) => (
-  <div className="flex items-center gap-3">
-    <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
-      <Icon className="w-5 h-5 text-primary" />
-    </div>
-    <h3 className="text-lg font-semibold text-foreground">{label}</h3>
-  </div>
-));
 
 const SelectField = memo(({ label, icon: Icon, value, options, onChange }: SelectFieldProps) => {
   if (!label || !Array.isArray(options)) return null;
@@ -218,7 +200,8 @@ const CarouselItemMemo = memo(({ bg, isActive, onSelect }: CarouselItemMemoProps
   </CarouselItem>
 ));
 
-export const Settings = memo(({ specifications }: SettingsProps) => {
+export const Settings = memo(() => {
+  const { specifications } = useSystemSpecifications();
   const { settings, updateSetting, handleBackgroundImageUpload, removeBackgroundImage } = useSettingsContext();
 
   const handleApplyBackground = useCallback(
@@ -231,21 +214,13 @@ export const Settings = memo(({ specifications }: SettingsProps) => {
   if (!settings) return null;
 
   return (
-    <Card className="p-8 mx-auto bg-card border">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <SettingsIcon className="w-5 h-5 text-primary" />
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold text-foreground">Configurações Avançadas</h3>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Acesse opções detalhadas para personalizar armazenamento, interface, vídeo e áudio.
-          </p>
-        </div>
-      </div>
-
+    <Card className="p-8 mx-auto bg-card border w-5xl">
       {/* Armazenamento */}
-      <SectionConfig icon={Folder} label="Armazenamento de Vídeo" />
+      <SectionConfig
+        icon={Folder}
+        label="Armazenamento de Vídeo"
+        description={'Defina onde os vídeos processados serão salvos e gerencie o diretório de saída.'}
+      />
       <div className="space-y-8">
         <div className="space-y-3">
           <Label className="text-sm font-medium">Pasta de saída</Label>
@@ -261,10 +236,11 @@ export const Settings = memo(({ specifications }: SettingsProps) => {
 
         {/* Personalização */}
         <section className="space-y-6">
-          <SectionConfig icon={ImageIcon} label="Personalização da Interface" />
-          <p className="text-sm text-muted-foreground mt-1">
-            Escolha uma imagem de fundo da galeria ou envie uma personalizada.
-          </p>
+          <SectionConfig
+            icon={ImageIcon}
+            label="Personalização da Interface"
+            description={'Escolha um plano de fundo para a interface ou envie uma imagem personalizada.'}
+          />
 
           <div className="space-y-4">
             <Label className="text-sm font-medium">Galeria de fundos</Label>
@@ -303,7 +279,12 @@ export const Settings = memo(({ specifications }: SettingsProps) => {
 
         {/* Vídeo */}
         <section className="space-y-6">
-          <SectionConfig label="Configurações de Vídeo" icon={Video} />
+          <SectionConfig
+            label="Configurações de Vídeo"
+            icon={Video}
+            description={'Ajuste codec, qualidade, resolução e desempenho do processamento de vídeo.'}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <SelectField
               label="Codec de vídeo"
@@ -354,7 +335,12 @@ export const Settings = memo(({ specifications }: SettingsProps) => {
 
         {/* Áudio */}
         <section className="space-y-6">
-          <SectionConfig icon={Music} label="Configurações de Áudio" />
+          <SectionConfig
+            icon={Music}
+            label="Configurações de Áudio"
+            description={'Configure codec, taxa de bits e controle de faixas de áudio e legendas.'}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <SelectField
               label="Codec de áudio"
