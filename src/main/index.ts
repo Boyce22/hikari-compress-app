@@ -1,7 +1,6 @@
 import fs from 'fs';
-import { join, basename, extname } from 'path';
 import { compress } from './node/compress';
-import icon from '../../resources/toji-pfp.jpg?asset';
+import { join, basename, extname } from 'path';
 import { getSystemSpecs } from './node/get-system-specs';
 import { ConvertOptions } from '@/shared/types/ConvertOptions';
 import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
@@ -12,8 +11,8 @@ const APP_CONFIG = Object.freeze({
   APP_ID: 'com.electron',
   PRELOAD_PATH: join(__dirname, '../preload/index.js'),
   RENDERER_PATH: join(__dirname, '../renderer/index.html'),
-  ICON_PATH: icon,
-  ICON_LINUX_PATH: join(__dirname, 'assets/icon.png'),
+  ICON_PATH: join(__dirname, 'assets/ico.jpg'),
+  ICON_LINUX_PATH: join(__dirname, 'assets/ico.jpg'),
   DEV_RENDERER_URL: process.env['ELECTRON_RENDERER_URL'] || '',
 });
 
@@ -84,6 +83,34 @@ function registerIpcHandlers() {
     fs.copyFileSync(originalPath, dest);
 
     return `backgrounds:///${destName}`;
+  });
+
+  ipcMain.handle('maximize-restore', async () => {
+    const focused = BrowserWindow.getFocusedWindow();
+
+    if (!focused) return null;
+
+    focused.isMaximized() ? focused.unmaximize() : focused.maximize();
+
+    return focused.isMaximized();
+  });
+
+  ipcMain.handle('minimize', async () => {
+    const focused = BrowserWindow.getFocusedWindow();
+    if (!focused) return null;
+
+    focused.minimize();
+
+    return true;
+  });
+
+  ipcMain.handle('close', async () => {
+    const focused = BrowserWindow.getFocusedWindow();
+    if (!focused) return null;
+
+    focused.close();
+
+    return true;
   });
 
   ipcMain.handle('compress-video', async (_, options: ConvertOptions) => {
