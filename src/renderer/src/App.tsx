@@ -5,6 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Videos } from '@/components/Videos';
 import { History as HistoryComponent } from '@/components/History';
 import { Settings as SettingsComponent } from './components/settings/Settings';
+import { useSystemSpecifications } from './hooks/useSystemSpecifications';
+import { getRecommendedConversionProfile } from '@/shared/utils/getRecommendedConversionProfile';
+import { RecommendedToSettings } from '@/shared/adapters/recommendedToSettings';
+import { useEffect } from 'react';
+import { useSettingsContext } from './providers/SettingsProvider';
+import { useSettings } from './hooks/useSettings';
 
 const TABS = [
   { value: 'compress', label: 'Comprimir', icon: FileVideo },
@@ -19,6 +25,36 @@ const TRIGGER_CLASSES =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50';
 
 export const HikariCompressApp: React.FC = () => {
+  const { specifications, getSystemSpecs } = useSystemSpecifications();
+  const { setSettings } = useSettingsContext();
+
+  useEffect(() => {
+    getSystemSpecs();
+  }, [getSystemSpecs]);
+
+  useEffect(() => {
+    const loadRecommendedSettings = () => {
+      if (specifications && specifications.cpu) {
+        const profile = getRecommendedConversionProfile(specifications);
+        const recommendedSettings = RecommendedToSettings(profile);
+
+        if (recommendedSettings) {
+          setSettings((prev) => ({ ...prev, ...recommendedSettings }));
+        }
+      }
+    };
+
+    loadRecommendedSettings();
+  }, [specifications, setSettings]);
+
+  // ===== TESTE: useSettings =====
+  const { settings } = useSettings();
+
+  useEffect(() => {
+    console.log('Configurações automáticas carregadas:', settings);
+  }, [settings]);
+  // ==============================
+
   return (
     <div className="self-center container mx-auto p-6 max-w-7xl flex flex-col items-center justify-center fade-in min-h-screen">
       <div className="w-full max-w-5xl flex flex-col items-center">

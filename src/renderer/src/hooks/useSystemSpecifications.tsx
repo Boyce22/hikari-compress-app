@@ -15,13 +15,17 @@ export const useSystemSpecifications = () => {
 
   const getSystemSpecs = useCallback(async () => {
     if (!window.api) return;
-    const specs = await window.api.getSystemSpecs();
 
-    if (!specs) {
-      throw new Error('Não foi possível obter as especificações do sistema.');
+    try {
+      const specs = await window.api.getSystemSpecs();
+      if (specs) {
+        setSpecifications(specs);
+      }
+    } catch (error) {
+      console.error('Falha ao obter especificações do sistema:', error);
+      // Opcional: reverter para o padrão ou mostrar um erro na UI
+      setSpecifications(DEFAULT_SPECFICATIONS);
     }
-
-    setSpecifications(specs);
   }, []);
 
   return { specifications, getSystemSpecs };

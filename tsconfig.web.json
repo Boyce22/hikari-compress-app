@@ -18,6 +18,7 @@
       "@/hooks/*": ["src/renderer/src/hooks/*"],
       "@/components/*": ["src/renderer/src/components/*"],
       "@/assets/*": ["src/renderer/assets/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   }
 }

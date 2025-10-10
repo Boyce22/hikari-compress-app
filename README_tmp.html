@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="hikari-compress">hikari-compress</h1>
+<p>An Electron application with React and TypeScript</p>
+<h2 id="recommended-ide-setup">Recommended IDE Setup</h2>
+<ul>
+<li><a href="https://code.visualstudio.com/">VSCode</a> + <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a> + <a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier</a></li>
+</ul>
+<h2 id="project-setup">Project Setup</h2>
+<h3 id="install">Install</h3>
+<pre class="hljs"><code><div>$ npm install
+</div></code></pre>
+<h3 id="development">Development</h3>
+<pre class="hljs"><code><div>$ npm run dev
+</div></code></pre>
+<h3 id="build">Build</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># For windows</span>
+$ npm run build:win
+
+<span class="hljs-comment"># For macOS</span>
+$ npm run build:mac
+
+<span class="hljs-comment"># For Linux</span>
+$ npm run build:linux
+</div></code></pre>
+<h2 id="resumo-detalhado-das-melhorias">Resumo Detalhado das Melhorias</h2>
+<p>Esta seção detalha as principais alterações e implementações realizadas para estruturar e funcionalizar a aplicação, com explicações técnicas e trechos de código.</p>
+<h3 id="1-l%C3%B3gica-de-compress%C3%A3o-otimizada-backend">1. Lógica de Compressão Otimizada (Backend)</h3>
+<p><strong>Objetivo:</strong> Garantir que a compressão de vídeo utilize as configurações mais eficientes possíveis, incluindo aceleração por hardware.</p>
+<p><strong>Arquivo Modificado:</strong> <code>src/main/node/compress.ts</code></p>
+<p><strong>Explicação:</strong>
+A implementação original passava apenas o codec (<code>-vcodec</code>) e a qualidade (<code>-crf</code>) para o FFmpeg. Isso ignorava o <strong>encoder</strong> específico (ex: <code>hevc_nvenc</code> para NVIDIA) e o <strong>preset</strong> de velocidade (ex: <code>medium</code>, <code>slow</code>), que são cruciais para o desempenho.</p>
+<p>A função foi atualizada para construir as opções de saída dinamicamente, incluindo o <code>preset</code> quando ele é fornecido. Isso permite que a lógica de recomendação de perfil (que sugere presets como <code>p4</code> para NVENC ou <code>slow</code> para <code>libx265</code>) seja totalmente aproveitada.</p>
+<p><strong>Implementação:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// src/main/node/compress.ts</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> compress = (options: ConvertOptions): <span class="hljs-built_in">Promise</span>&lt;{ size: <span class="hljs-built_in">number</span>; outputPath: <span class="hljs-built_in">string</span> }&gt; =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-comment">// ... validação do arquivo</span>
+
+    <span class="hljs-keyword">const</span> outputOpts = [<span class="hljs-string">`-vcodec <span class="hljs-subst">${options.codec}</span>`</span>, <span class="hljs-string">`-crf <span class="hljs-subst">${options.quality}</span>`</span>];
+
+    <span class="hljs-comment">// Adiciona o preset se ele existir nas opções</span>
+    <span class="hljs-keyword">if</span> (options.preset) {
+      outputOpts.push(<span class="hljs-string">`-preset <span class="hljs-subst">${options.preset}</span>`</span>);
+    }
+
+    <span class="hljs-keyword">let</span> command = ffmpeg(options.inputPath).outputOptions(outputOpts).output(options.outputPath);
+
+    <span class="hljs-comment">// ... resto da lógica</span>
+  });
+};
+</div></code></pre>
+<h3 id="2-estrutura-e-clareza-do-projeto">2. Estrutura e Clareza do Projeto</h3>
+<p><strong>Objetivo:</strong> Organizar a estrutura de arquivos para que seja mais intuitiva e siga as convenções da comunidade, facilitando a manutenção.</p>
+<p><strong>Explicação:</strong>
+Nomes de arquivo genéricos como <code>index.ts</code> foram substituídos por nomes que descrevem sua função. Isso exigiu uma atualização na configuração do <code>electron-vite</code> para declarar os novos pontos de entrada, já que não estamos mais usando os caminhos padrão.</p>
+<p><strong>Arquivos Renomeados:</strong></p>
+<ul>
+<li><code>src/main/index.ts</code> → <code>src/main/main.ts</code></li>
+<li><code>src/preload/index.ts</code> → <code>src/preload/preload.ts</code></li>
+<li><code>src/renderer/src/hooks/useBackgroundImage.tsx</code> → <code>src/renderer/src/hooks/useVideoFiles.tsx</code></li>
+</ul>
+<p><strong>Configuração Atualizada:</strong> (<code>electron.vite.config.ts</code>)</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// electron.vite.config.ts</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+  main: {
+    entry: <span class="hljs-string">'src/main/main.ts'</span>, <span class="hljs-comment">// Ponto de entrada explícito</span>
+    plugins: [tsconfigPaths(), externalizeDepsPlugin()]
+  },
+  preload: {
+    entry: <span class="hljs-string">'src/preload/preload.ts'</span>, <span class="hljs-comment">// Ponto de entrada explícito</span>
+    plugins: [tsconfigPaths(), externalizeDepsPlugin()]
+  },
+  renderer: {
+    plugins: [react(), tsconfigPaths()]
+  }
+})
+</div></code></pre>
+<h3 id="3-orquestra%C3%A7%C3%A3o-e-l%C3%B3gica-da-interface-frontend">3. Orquestração e Lógica da Interface (Frontend)</h3>
+<p><strong>Objetivo:</strong> Implementar o fluxo de trabalho completo na interface do usuário, desde a seleção do arquivo até a finalização da compressão.</p>
+<p><strong>Arquivo Principal:</strong> <code>src/renderer/src/hooks/useVideoFiles.tsx</code></p>
+<p><strong>Explicação:</strong>
+O hook <code>useVideoFiles</code> (anteriormente um placeholder) foi transformado no cérebro da aplicação. Ele agora gerencia o estado da fila de vídeos e orquestra todas as operações, conectando a interface com o backend.</p>
+<p>A função <code>startCompression</code> é o coração dessa lógica. Ela estava vazia e agora executa a sequência completa de operações de forma assíncrona.</p>
+<p><strong>Implementação da Lógica Principal:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// src/renderer/src/hooks/useVideoFiles.tsx</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useVideoFiles = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> [videoFiles, setVideoFiles] = useState&lt;VideoFile[]&gt;([]);
+  <span class="hljs-comment">// 1. Obtém as especificações do sistema</span>
+  <span class="hljs-keyword">const</span> { specifications } = useSystemSpecifications();
+  <span class="hljs-comment">// 2. Obtém o perfil de conversão recomendado com base nas especificações</span>
+  <span class="hljs-keyword">const</span> { profile } = useRecommendedConversionProfile(specifications);
+
+  <span class="hljs-comment">// ... lógicas de upload e remoção</span>
+
+  <span class="hljs-keyword">const</span> startCompression = useCallback(
+    <span class="hljs-keyword">async</span> (fileId: <span class="hljs-built_in">string</span>) =&gt; {
+      <span class="hljs-keyword">const</span> file = videoFiles.find(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> f.id === fileId);
+      <span class="hljs-keyword">if</span> (!file || !profile || !file.path) <span class="hljs-keyword">return</span>;
+
+      <span class="hljs-comment">// Atualiza a UI para o estado de "Processando"</span>
+      setVideoFiles(<span class="hljs-function">(<span class="hljs-params">prev</span>) =&gt;</span>
+        prev.map(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> (f.id === fileId ? { ...f, status: StatusProcessing.PROCESSING } : f)),
+      );
+
+      <span class="hljs-comment">// 3. Monta as opções de conversão com base no perfil</span>
+      <span class="hljs-keyword">const</span> options: ConvertOptions = {
+        inputPath: file.path,
+        outputPath: <span class="hljs-string">`C:/Users/GJHON/Desktop/compress/<span class="hljs-subst">${file.name}</span>`</span>, <span class="hljs-comment">// Exemplo</span>
+        codec: profile.encoder, <span class="hljs-comment">// Usa o encoder recomendado (ex: hevc_nvenc)</span>
+        quality: profile.crf,
+        preset: profile.preset,
+      };
+
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// 4. Chama a API do backend para iniciar a compressão</span>
+        <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-built_in">window</span>.api.compressVideo(options);
+
+        <span class="hljs-comment">// Atualiza a UI com o resultado</span>
+        setVideoFiles(<span class="hljs-function">(<span class="hljs-params">prev</span>) =&gt;</span>
+          prev.map(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span>
+            f.id === fileId
+              ? { ...f, status: StatusProcessing.COMPLETED, compressedSize: result.size }
+              : f,
+          ),
+        );
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-comment">// ... trata o erro</span>
+      }
+    },
+    [videoFiles, profile],
+  );
+
+  <span class="hljs-keyword">return</span> { videoFiles, handleFileUpload, removeFile, startCompression, setVideoFiles };
+};
+</div></code></pre>
+
+</body>
+</html>

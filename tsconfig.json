@@ -7,7 +7,9 @@
       "@/main/*": ["src/main/*"],
       "@/node/*": ["src/node/*"],
       "@/shared/*": ["src/shared/*"]
-    }
+    },
+
+    "ignoreDeprecations": "6.0"
   },
   "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
 }
