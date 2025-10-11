@@ -1,6 +1,5 @@
 import { memo } from 'react';
 
-import { Card } from '../ui/card';
 import { Separator } from '../ui/separator';
 
 import { VideoSettings } from './VideoSettings';
@@ -10,8 +9,8 @@ import { BackgroundGallerySettings } from './BackgroundGallerySettings';
 
 export const Settings = memo(() => {
   return (
-    <Card className="p-8 mx-auto bg-card border w-5xl">
-      <div className="space-y-8">
+    <div>
+      <div className="space-y-8 p-10">
         <StorageSettings />
         <Separator />
         <BackgroundGallerySettings />
@@ -20,6 +19,6 @@ export const Settings = memo(() => {
         <Separator />
         <AudioSettings />
       </div>
-    </Card>
+    </div>
   );
 });

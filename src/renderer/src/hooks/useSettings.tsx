@@ -39,6 +39,16 @@ export const useSettings = () => {
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handleFolderStorage = useCallback(async () => {
+    if (!window.api) return;
+
+    const folder: string[] = await window.api.openFileDialog({
+      options: ['openDirectory'],
+    });
+
+    updateSetting('outputPath', folder[0]);
+  }, []);
+
   const handleBackgroundImageUpload = useCallback(async () => {
     if (!window.api) return;
 
@@ -67,6 +77,7 @@ export const useSettings = () => {
     settings,
     setSettings,
     updateSetting,
+    handleFolderStorage,
     handleBackgroundImageUpload,
     removeBackgroundImage,
   };

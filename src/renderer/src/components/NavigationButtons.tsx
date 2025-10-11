@@ -22,7 +22,7 @@ export const NavigationButtons = () => {
 
   return (
     <div
-      className="titlebar flex items-center justify-between select-none bg-neutral-900 text-gray-200 border-b border-neutral-800 px-3 py-1.5"
+      className="titlebar fixed top-0 left-0 w-full flex items-center justify-between select-none bg-neutral-900 text-gray-200 border-b border-neutral-800 px-3 py-1.5 z-50"
       style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}
     >
       <div className="flex items-center gap-2">

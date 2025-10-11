@@ -1,12 +1,12 @@
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { Folder } from 'lucide-react';
+import { Folder, FoldersIcon } from 'lucide-react';
 import { SectionConfig } from '@/components/SectionConfig';
 import { useSettingsContext } from '@/renderer/providers/SettingsProvider';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 
 export const StorageSettings = () => {
-  const { settings, updateSetting } = useSettingsContext();
+  const { settings, handleFolderStorage } = useSettingsContext();
   return (
     <>
       <SectionConfig
@@ -16,12 +16,17 @@ export const StorageSettings = () => {
       />
       <div className="space-y-3">
         <Label className="text-sm font-medium">Pasta de saída</Label>
-        <Input
-          value={settings.outputPath}
-          onChange={(e) => updateSetting('outputPath', e.target.value)}
-          placeholder="Selecione o diretório de saída..."
-          className="bg-background"
-        />
+        <InputGroup>
+          <InputGroupInput
+            value={settings.outputPath}
+            placeholder="Selecione o diretório de saída..."
+            className="bg-background"
+            disabled={true}
+          />
+          <InputGroupAddon onClick={handleFolderStorage} align="inline-end" className="hover:cursor-pointer hover:text-foreground">
+            <FoldersIcon />
+          </InputGroupAddon>
+        </InputGroup>
       </div>
     </>
   );

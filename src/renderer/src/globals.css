@@ -53,21 +53,14 @@
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 10%; /* preto escuro */
+    --sidebar-foreground: 0 0% 95%; /* texto branco */
+    --sidebar-primary: 142 60% 35%; /* verde principal */
+    --sidebar-primary-foreground: 0 0% 98%; /* texto sobre verde */
+    --sidebar-accent: 142 40% 30%; /* verde mais suave */
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 15%; /* borda preta escura */
+    --sidebar-ring: 142 60% 35%; /* glow verde */
   }
 
   .dark {
