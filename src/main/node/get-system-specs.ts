@@ -29,3 +29,36 @@ export const getSystemSpecs = async () => {
     gpuAvailable,
   };
 };
+
+// TODO: Criar função async getRecommendedSettings(): Promise<Settings>
+// Objetivo: Retornar um objeto Settings completo baseado nas specs do sistema
+
+// TODO 1: Chamar getSystemSpecs() para obter informações reais do sistema
+// const specs = await getSystemSpecs();
+
+// TODO 2: Aplicar a lógica de recomendação diretamente dentro desta função
+// - Usar cpu, cores, ram, gpu, gpuAvailable e os flags para decidir:
+//   codec, encoder, preset, hardwareAcceleration, rationale
+// - Esta é a lógica que antes estava no getRecommendedConversionProfile
+
+// TODO 3: Criar um objeto Settings baseado nos resultados da recomendação
+// Preencher todos os campos obrigatórios de Settings:
+// - codec
+// - quality
+// - preset
+// - resolution
+// - fps
+// - ram
+// - keepSubtitles
+// - keepAudio
+// - audioCodec
+// - audioBitrate
+// - hardwareAcceleration
+// - outputPath
+// - backgroundImage
+
+// TODO 4: Garantir valores default caso algum campo esteja ausente ou null
+
+// TODO 5: Retornar o objeto Settings completo
+
+

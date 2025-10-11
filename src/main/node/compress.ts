@@ -9,8 +9,16 @@ export const compress = (options: ConvertOptions): Promise<{ size: number; outpu
     }
 
     let command = ffmpeg(options.inputPath)
-      .outputOptions([`-vcodec ${options.codec}`, `-crf ${options.quality}`])
-      .output(options.outputPath);
+      .outputOptions([`-vcodec ${options.codec}`, `-crf ${options.quality}`]);
+
+    if (options.preset) {
+      command = command.outputOptions([`-preset ${options.preset}`]);
+    }
+
+    if (options.hardwareAcceleration) {
+      command = command.outputOptions([`-hwaccel ${options.hardwareAcceleration}`]);
+    }
+    command = command.output(options.outputPath);
 
     if (!options.keepAudio) {
       command = command.noAudio();

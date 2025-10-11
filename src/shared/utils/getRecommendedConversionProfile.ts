@@ -88,6 +88,8 @@ const detectGPUProfile = (
     };
   }
 
+  // TODO: Adiciona isWindows e isMac se necessário para outras GPUs : declare 'isWindows' is declared but its value is never read. 
+
   return null;
 };
 
