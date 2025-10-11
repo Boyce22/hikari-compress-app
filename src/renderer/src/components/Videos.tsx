@@ -13,7 +13,7 @@ export const Videos: React.FC = () => {
   const hasVideos = videos.length > 0;
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    <div className="self-center grid grid-cols-1 xl:grid-cols-3 gap-8 min-w-7xl">
       <div className="xl:col-span-2 space-y-6">
         <FileUploadZone onFileUpload={handleFileUpload} />
 

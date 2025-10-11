@@ -48,12 +48,13 @@ export function HikariSidebar({ activeTab, onTabChange, className }: HikariSideb
           ))}
         </SidebarMenu>
       </SidebarContent>
-
-      <SidebarFooter className="border-t mt-auto text-[10px] text-sidebar-foreground/50 flex flex-col gap-0.5">
-        <span>
-          Powered by Tsukuyomi <span className="text-primary">Labs</span>
+      <SidebarFooter className="border-t text-xs  mt-auto text-[10px] text-sidebar-foreground/50 flex flex-col gap-01.5">
+        <span className="flex items-center text-muted-foreground">
+          <span>
+            Powered by <span className="text-primary font-semibold">Tsukuyomi Labs</span>
+          </span>
+          <span className="ml-3 opacity-80">v1.0.0</span>
         </span>
-        <span>1.0.0</span>
       </SidebarFooter>
     </Sidebar>
   );

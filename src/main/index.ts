@@ -5,7 +5,7 @@ import { getSystemSpecs } from './node/get-system-specs';
 import { ConvertOptions } from '@/shared/types/ConvertOptions';
 import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, dialog, protocol, screen } from 'electron';
 
 const APP_CONFIG = Object.freeze({
   APP_ID: 'com.electron',
@@ -17,12 +17,12 @@ const APP_CONFIG = Object.freeze({
 });
 
 function createMainWindow(): BrowserWindow {
-  // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   const window = new BrowserWindow({
-    width: 1280,
-    height: 920,
-    frame: false,
+    width,
+    height,
+    frame: true,
     fullscreenable: true,
     autoHideMenuBar: true,
     titleBarStyle: 'hiddenInset',
