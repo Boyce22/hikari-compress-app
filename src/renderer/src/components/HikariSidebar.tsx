@@ -8,6 +8,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from './ui/sidebar';
+import { BACKGROUNDS } from '../lib/background';
 
 interface HikariSidebarProps {
   activeTab: 'videos' | 'history' | 'settings';
@@ -48,13 +49,20 @@ export function HikariSidebar({ activeTab, onTabChange, className }: HikariSideb
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="border-t text-xs  mt-auto text-[10px] text-sidebar-foreground/50 flex flex-col gap-01.5">
-        <span className="flex items-center text-muted-foreground">
-          <span>
-            Powered by <span className="text-primary font-semibold">Tsukuyomi Labs</span>
+      <SidebarFooter className="border-t mt-auto">
+        <div
+          className="flex items-center text-[10px] text-muted-foreground rounded-md px-3 py-2 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${BACKGROUNDS.ANIME_BG_1.full})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <span className="backdrop-blur-[2px] bg-black/30 px-2 py-1 rounded-md">
+            Powered by <span className="font-semibold text-primary">Tsukuyomi Labs</span>
           </span>
-          <span className="ml-3 opacity-80">v1.0.0</span>
-        </span>
+          <span className="ml-3 opacity-80 backdrop-blur-[2px] bg-black/30 px-2 py-1 rounded-md">v1.0.0</span>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );
