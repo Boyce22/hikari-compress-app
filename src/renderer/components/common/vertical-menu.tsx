@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Settings, History, Video, GripHorizontal } from 'lucide-react';
 
 interface VerticalMenuProps {
@@ -7,15 +7,20 @@ interface VerticalMenuProps {
 }
 
 const MENU_OPTIONS = [
-  { id: 'settings', icon: Settings, label: 'Configurações' },
   { id: 'videos', icon: Video, label: 'Vídeos' },
   { id: 'history', icon: History, label: 'Histórico' },
+  { id: 'settings', icon: Settings, label: 'Configurações' },
 ];
 
 export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps) {
+  const MENU_MARGIN = 16;
+
   const [position, setPosition] = useState({ x: 24, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
+
+  const menuWidth = 56;
+  const menuHeight = MENU_OPTIONS.length * 56 + 16;
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -25,24 +30,42 @@ export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps)
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
-    const menuHeight = MENU_OPTIONS.length * 56 + 16; 
-    const menuWidth = 56;
 
-    const x = Math.min(Math.max(0, e.clientX - dragOffset.current.x), window.innerWidth - menuWidth);
-    const y = Math.min(Math.max(0, e.clientY - dragOffset.current.y), window.innerHeight - menuHeight);
+    const x = Math.min(
+      Math.max(MENU_MARGIN, e.clientX - dragOffset.current.x),
+      window.innerWidth - menuWidth - MENU_MARGIN,
+    );
+
+    const y = Math.min(
+      Math.max(MENU_MARGIN * 3, e.clientY - dragOffset.current.y),
+      window.innerHeight - menuHeight - MENU_MARGIN * 2,
+    );
 
     setPosition({ x, y });
   };
-
   const handleMouseUp = () => setIsDragging(false);
 
-  if (typeof window !== 'undefined') {
-    window.onmousemove = handleMouseMove;
-    window.onmouseup = handleMouseUp;
-  }
+  useEffect(() => {
+    const handleResize = () => {
+      setPosition((pos) => ({
+        x: Math.min(Math.max(MENU_MARGIN, pos.x), window.innerWidth - menuWidth - MENU_MARGIN),
+        y: Math.min(Math.max(MENU_MARGIN, pos.y), window.innerHeight - menuHeight - MENU_MARGIN),
+      }));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isDragging]);
 
   return (
-    <div className="fixed z-50 select-none" style={{ left: position.x, top: position.y }}>
+    <div className="fixed z-50 select-none mr-2" style={{ left: position.x, top: position.y }}>
       <div
         className="flex justify-center items-center w-15 h-9 bg-muted rounded-t-xl cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
