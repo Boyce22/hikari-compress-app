@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import icon from '@/assets/icon.png'
 import { Maximize2, Minimize2, X } from 'lucide-react';
 
 export const NavigationButtons = () => {
