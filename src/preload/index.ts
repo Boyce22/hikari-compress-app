@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { ConvertOptions } from '@/shared/types/ConvertOptions';
-import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
+import { ConvertOptions } from '@/shared/types/convert-options';
+import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
 
 // Custom APIs for renderer
 const api = {

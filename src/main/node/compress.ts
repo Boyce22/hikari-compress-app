@@ -1,6 +1,6 @@
 import fs from 'fs';
 import ffmpeg from 'fluent-ffmpeg';
-import { ConvertOptions } from '@/shared/types/ConvertOptions';
+import { ConvertOptions } from '@/shared/types/convert-options';
 
 export const compress = (options: ConvertOptions): Promise<{ size: number; outputPath: string }> => {
   return new Promise((resolve, reject) => {

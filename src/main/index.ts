@@ -2,8 +2,8 @@ import fs from 'fs';
 import { compress } from './node/compress';
 import { join, basename, extname } from 'path';
 import { getSystemSpecs } from './node/get-system-specs';
-import { ConvertOptions } from '@/shared/types/ConvertOptions';
-import { OptionsFileDialog } from '@/shared/types/OptionsFileDialog';
+import { ConvertOptions } from '@/shared/types/convert-options';
+import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol, screen } from 'electron';
 

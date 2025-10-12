@@ -1,4 +1,4 @@
-import { HistoryItem } from '../types/HistoryItem';
+import { HistoryItem } from '../types/history-item';
 
 export const historyMock: HistoryItem[] = [
   {
