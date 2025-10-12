@@ -4,6 +4,7 @@ import { historyMock } from '@/shared/mocks/video';
 import { Videos } from '@/features/videos';
 import { History as HistoryComponent } from '@/features/history';
 import { Settings as SettingsComponent } from '@/features/settings';
+import VerticalMenu from '../components/common/vertical-menu';
 
 const TAB_TITLES = {
   videos: 'Comprimir Vídeos',
@@ -24,6 +25,7 @@ export const HikariCompressApp: React.FC = () => {
 
   return (
     <div className="flex h-full overflow-hidden">
+      <VerticalMenu activeTab={activeTab} onSelect={(tab) => setActiveTab(tab as TabKey)} />
       <main className="overflow-auto flex flex-1 justify-center h-screen">{CONTENT_MAP[activeTab]}</main>
     </div>
   );
