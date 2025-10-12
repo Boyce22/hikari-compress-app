@@ -1,23 +1,23 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
-  "include": [
-    "src/renderer/src/env.d.ts",
-    "src/renderer/src/**/*",
-    "src/renderer/src/**/*.tsx",
-    "src/preload/*.d.ts",
-    "src/shared/**/*.ts",
-    "src/renderer/assets/*.jpg"
-  ],
+  "include": ["src/**/*"],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@/shared/*": ["src/shared/*"],
-      "@/renderer/*": ["src/renderer/src/*"],
-      "@/hooks/*": ["src/renderer/src/hooks/*"],
-      "@/components/*": ["src/renderer/src/components/*"],
-      "@/assets/*": ["src/renderer/assets/*"]
+      "@/renderer/*": ["src/renderer/*"],
+      "@/hooks/*": ["src/renderer/hooks/*"],
+      "@/components/*": ["src/renderer/components/*"],
+      "@/ui/*": ["src/renderer/components/ui/*"],
+      "@/providers/*": ["src/renderer/app/providers/*"],
+      "@/features/*": ["src/renderer/features/*"],
+      "@/assets/*": ["src/renderer/assets/*"],
+      "@/lib/*": ["src/renderer/lib/*"],
+      "@/videos/*": ["src/renderer/features/videos/*"],
+      "@/history/*": ["src/renderer/features/history/*"],
+      "@/settings/*": ["src/renderer/features/settings/*"]
     }
   }
 }
