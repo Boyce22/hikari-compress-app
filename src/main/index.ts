@@ -145,12 +145,14 @@ function registerBackgroundProtocol() {
 
     try {
       const data = await fs.promises.readFile(filePath);
+      const encodeddata = new Uint8Array(data);
       const ext = extname(filePath).slice(1).toLowerCase();
       const mime = getMimeType(ext);
 
-      return new Response(data, {
+      return new Response(encodeddata, {
         headers: { 'Content-Type': mime },
       });
+      
     } catch (err) {
       console.error('[backgrounds protocol]', err);
       return new Response('Not Found', { status: 404 });
