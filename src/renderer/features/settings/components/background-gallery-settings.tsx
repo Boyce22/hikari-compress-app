@@ -52,7 +52,7 @@ const BackgroundThumbnail = memo(({ src, alt, className = '' }: BackgroundThumbn
 });
 
 const BackgroundCarouselItem = memo(({ bg, isActive, onSelect }: BackgroundCarouselItemProps) => (
-  <CarouselItem className="pl-2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
+  <CarouselItem className="md:basis-1/4 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
     <div
       onClick={onSelect}
       data-active={isActive}
@@ -84,7 +84,7 @@ export const BackgroundGallerySettings = () => {
 
       <div className="space-y-4">
         <Label className="text-sm font-medium">Galeria de fundos</Label>
-        <Carousel opts={{ align: 'start', loop: true, dragFree: true }} className="w-full">
+        <Carousel opts={{ align: 'start', dragFree: true }} className="w-full">
           <CarouselContent className="-ml-2 md:-ml-4 mb-4">
             {ANIME_BACKGROUNDS.map((bg) => (
               <BackgroundCarouselItem

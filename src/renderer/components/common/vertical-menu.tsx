@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Settings, History, Video, GripHorizontal } from 'lucide-react';
+import { GripHorizontal, Settings, LayoutDashboard } from 'lucide-react';
 
 interface VerticalMenuProps {
   activeTab: string;
@@ -7,9 +7,8 @@ interface VerticalMenuProps {
 }
 
 const MENU_OPTIONS = [
-  { id: 'videos', icon: Video, label: 'Vídeos' },
-  { id: 'history', icon: History, label: 'Histórico' },
-  { id: 'settings', icon: Settings, label: 'Configurações' },
+  { id: 'dash', icon: LayoutDashboard, label: 'Dash' },
+  { id: 'settings', icon: Settings, label: 'Vídeos' },
 ];
 
 export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps) {
@@ -80,11 +79,11 @@ export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps)
             <button
               key={id}
               onClick={() => onSelect(id)}
-              className={`flex justify-center items-center w-14 h-14 transition-colors duration-300 ${
+              className={`flex justify-center items-center w-11 h-11 transition-colors duration-300 ${
                 isSelected ? 'bg-primary text-primary-foreground' : 'text-foreground/50 hover:bg-accent'
               }`}
             >
-              <Icon size={24} />
+              <Icon size={19} />
             </button>
           );
         })}

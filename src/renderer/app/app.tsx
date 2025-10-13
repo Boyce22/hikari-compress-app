@@ -1,26 +1,22 @@
 import { JSX, useState } from 'react';
-import { historyMock } from '@/shared/mocks/video';
 
-import { Videos } from '@/features/videos';
-import { History as HistoryComponent } from '@/features/history';
+import { Dash } from '@/features/dashboard';
 import { Settings as SettingsComponent } from '@/features/settings';
 import VerticalMenu from '../components/common/vertical-menu';
 
 const TAB_TITLES = {
-  videos: 'Comprimir Vídeos',
+  dash: 'Comprimir Vídeos',
   settings: 'Configurações',
-  history: 'Histórico',
 } as const;
 
 type TabKey = keyof typeof TAB_TITLES;
 
 export const HikariCompressApp: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>('settings');
+  const [activeTab, setActiveTab] = useState<TabKey>('dash');
 
   const CONTENT_MAP: Record<TabKey, JSX.Element> = {
-    videos: <Videos />,
+    dash: <Dash />,
     settings: <SettingsComponent />,
-    history: <HistoryComponent historyArr={historyMock} />,
   };
 
   return (

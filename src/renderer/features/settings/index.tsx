@@ -9,8 +9,8 @@ import { BackgroundGallerySettings } from '../../features/settings/components/ba
 
 export const Settings = memo(() => {
   return (
-    <div>
-      <div className="space-y-8 p-10">
+    <div className="flex-1 overflow-auto bg-background p-12">
+      <div className="p-8 space-y-6">
         <StorageSettings />
         <Separator />
         <BackgroundGallerySettings />
