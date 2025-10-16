@@ -9,24 +9,23 @@ export const compress = (options: ConvertOptions): Promise<{ size: number; outpu
     }
 
     let command = ffmpeg(options.inputPath)
-      .outputOptions([`-vcodec ${options.codec}`, `-crf ${options.quality}`])
-      .output(options.outputPath);
+         .outputOptions([`-vcodec ${options.codec}`, `-crf ${options.quality}`]);
 
-    if (!options.keepAudio) {
-      command = command.noAudio();
+    if (options.preset) {
+      command = command.outputOptions([`-preset ${options.preset}`]);
     }
 
-    if (!options.keepSubtitles) {
-      command = command.noSubtitle();
+    if (options.hardwareAcceleration) {
+      command = command.outputOptions([`-hwaccel ${options.hardwareAcceleration}`]);
     }
-
+    command = command.output(options.outputPath); 
     command
       .on('end', () => {
         const stats = fs.statSync(options.outputPath);
         resolve({ size: stats.size, outputPath: options.outputPath });
       })
       .on('error', (err) => {
-        reject(err);
+        reject(err || new Error('Erro desconhecido durante a compressão'));
       })
       .run();
   });
