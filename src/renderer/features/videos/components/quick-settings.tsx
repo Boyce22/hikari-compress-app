@@ -57,7 +57,7 @@ const SWITCH_OPTIONS = Object.freeze([
 
 export function QuickSettings() {
   const { settings, setSettings } = useSettingsContext();
-  
+
   const handleSelectChange = (key: string, value: string) => {
     setSettings({ ...settings, [key]: value });
   };

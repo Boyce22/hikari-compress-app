@@ -103,7 +103,9 @@ export const Dash = () => {
 
         <Tabs defaultValue="ratio" className="mt-8">
           <TabsList>
-            <TabsTrigger value="ratio" className='text-xs'>Taxa de Conversão</TabsTrigger>
+            <TabsTrigger value="ratio" className="text-xs">
+              Taxa de Conversão
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="ratio">
             <Card className="p-6 bg-card border-border/50 h-96">
@@ -120,10 +122,11 @@ export const Dash = () => {
                       key={option.value}
                       size="sm"
                       variant={range === option.value ? 'default' : 'ghost'}
-                      className={`text-xs ${range === option.value
-                        ? 'bg-primary text-primary-foreground'
-                        : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                      className={`text-xs ${
+                        range === option.value
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
                       onClick={() => setRange(option.value)}
                     >
                       {option.label}

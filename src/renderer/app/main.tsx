@@ -8,7 +8,7 @@ import { NavigationButtons } from '../features/videos/components/navigation-butt
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <SettingsProvider>
-      <NavigationButtons/>
+      <NavigationButtons />
       <HikariCompressApp />
     </SettingsProvider>
   </StrictMode>,

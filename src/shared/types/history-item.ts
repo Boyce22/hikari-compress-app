@@ -1,4 +1,4 @@
-import { StatusProcessing } from "./status-processing";
+import { StatusProcessing } from './status-processing';
 
 export interface HistoryItem {
   id: string;
@@ -10,7 +10,5 @@ export interface HistoryItem {
 }
 
 export interface HistoryItemWithProgressCompress extends HistoryItem {
-  progress?: StatusProcessing
+  progress?: StatusProcessing;
 }
-
-

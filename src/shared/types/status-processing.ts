@@ -5,4 +5,4 @@ export const StatusProcessing = Object.freeze({
   ERROR: 'error',
 });
 
-export type StatusProcessing = typeof StatusProcessing[keyof typeof StatusProcessing];
+export type StatusProcessing = (typeof StatusProcessing)[keyof typeof StatusProcessing];

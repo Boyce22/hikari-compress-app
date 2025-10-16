@@ -152,7 +152,6 @@ function registerBackgroundProtocol() {
       return new Response(encodeddata, {
         headers: { 'Content-Type': mime },
       });
-      
     } catch (err) {
       console.error('[backgrounds protocol]', err);
       return new Response('Not Found', { status: 404 });

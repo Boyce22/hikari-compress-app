@@ -23,7 +23,11 @@ export const StorageSettings = () => {
             className="bg-background"
             disabled={true}
           />
-          <InputGroupAddon onClick={handleFolderStorage} align="inline-end" className="hover:cursor-pointer hover:text-foreground">
+          <InputGroupAddon
+            onClick={handleFolderStorage}
+            align="inline-end"
+            className="hover:cursor-pointer hover:text-foreground"
+          >
             <FoldersIcon />
           </InputGroupAddon>
         </InputGroup>
