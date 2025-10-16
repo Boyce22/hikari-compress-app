@@ -7,43 +7,44 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
 import { useVideoFiles } from '@/settings/hooks/use-background-image';
 import { Archive, CloudUpload, Cpu, FileVideo, HardDrive, Zap } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { HistoryTable } from './components/history-table';
 
 const RANGE_OPTIONS = [
-  { label: 'Last 7 days', value: 7 },
-  { label: 'Last 30 days', value: 30 },
-  { label: 'Last 3 months', value: 90 },
+  { label: '7 dias', value: 7 },
+  { label: '30 dias', value: 30 },
+  { label: '3 meses', value: 90 },
 ];
 
 const CARDS_STATS = [
   {
     icon: Archive,
-    label: 'Total Processed',
+    label: 'Total Processado',
     value: 900102301,
-    subtitle: 'Growing this month',
-    trend: '+8.2%',
+    subtitle: 'Crescimento neste mês',
+    trend: '+8,2%',
   },
   {
     icon: HardDrive,
-    label: 'Space Saved',
+    label: 'Espaço Economizado',
     value: 229309120,
-    subtitle: '20% reduction',
+    subtitle: 'Redução de 20%',
     trend: '+20%',
   },
   {
     icon: FileVideo,
-    label: 'Files Processed',
+    label: 'Arquivos Processados',
     value: 5,
     bytes: false,
-    subtitle: 'High retention',
-    trend: '+12.5%',
+    subtitle: 'Alta retenção',
+    trend: '+12,5%',
   },
   {
     icon: Zap,
-    label: 'Compression Rate',
+    label: 'Taxa de Compressão',
     value: '33%',
     bytes: false,
-    subtitle: 'Performance growing',
-    trend: '+4.5%',
+    subtitle: 'Desempenho em crescimento',
+    trend: '+4,5%',
   },
 ];
 
@@ -76,8 +77,8 @@ export const Dash = () => {
               <Cpu className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold">Dashboard</h3>
-              <p className="text-sm text-muted-foreground">Compression overview</p>
+              <h3 className="text-xl font-semibold">Dashboard</h3>
+              <p className="text-sm text-muted-foreground">Visão geral da compactação</p>
             </div>
           </div>
 
@@ -102,23 +103,27 @@ export const Dash = () => {
 
         <Tabs defaultValue="ratio" className="mt-8">
           <TabsList>
-            <TabsTrigger value="ratio">File Sizes</TabsTrigger>
+            <TabsTrigger value="ratio" className='text-xs'>Taxa de Conversão</TabsTrigger>
           </TabsList>
           <TabsContent value="ratio">
             <Card className="p-6 bg-card border-border/50 h-96">
               <div className="flex justify-between items-center mb-6">
-                <h4 className="text-md font-semibold">File Sizes Over Time</h4>
+                <div className="gap-1 flex flex-col">
+                  <h4 className="text-md font-semibold">Histórico de Conversão</h4>
+                  <p className="text-sm text-muted-foreground ">
+                    Total for the {RANGE_OPTIONS.find((opt) => opt.value === range)?.label.toLocaleLowerCase()}
+                  </p>
+                </div>
                 <div className="flex gap-1 bg-muted/10 p-1 rounded-md">
                   {RANGE_OPTIONS.map((option) => (
                     <Button
                       key={option.value}
                       size="sm"
                       variant={range === option.value ? 'default' : 'ghost'}
-                      className={`text-xs ${
-                        range === option.value
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
+                      className={`text-xs ${range === option.value
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
+                        }`}
                       onClick={() => setRange(option.value)}
                     >
                       {option.label}
@@ -128,50 +133,65 @@ export const Dash = () => {
               </div>
 
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
+                <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 10 }}>
                   <defs>
                     <linearGradient id="original" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.7} />
-                      <stop offset="100%" stopColor="#1e3a8a" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.05} />
                     </linearGradient>
                     <linearGradient id="compressed" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.7} />
-                      <stop offset="100%" stopColor="#0e7490" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.05} />
                     </linearGradient>
                   </defs>
 
-                  <CartesianGrid stroke="hsl(var(--border) / 0.15)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.15)" vertical={false} />
+
                   <XAxis
                     dataKey="name"
                     stroke="hsl(var(--muted-foreground))"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={10}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                   />
+
                   <YAxis
                     stroke="hsl(var(--muted-foreground))"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={10}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                     tickFormatter={(value) => `${value} MB`}
                   />
                   <Tooltip content={<CustomTooltip />} />
 
-                  <Area type="monotone" dataKey="originalSize" stroke="#3b82f6" strokeWidth={2} fill="url(#original)" />
                   <Area
-                    type="monotone"
+                    type="natural"
+                    dataKey="originalSize"
+                    stroke="#3b82f6"
+                    strokeWidth={2.5}
+                    fill="url(#original)"
+                    dot={false}
+                    activeDot={{ r: 5, fill: '#3b82f6', strokeWidth: 0 }}
+                  />
+
+                  <Area
+                    type="natural"
                     dataKey="compressedSize"
                     stroke="#22d3ee"
-                    strokeWidth={2}
+                    strokeWidth={2.5}
                     fill="url(#compressed)"
+                    dot={false}
+                    activeDot={{ r: 5, fill: '#22d3ee', strokeWidth: 0 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             </Card>
           </TabsContent>
         </Tabs>
+
+        <HistoryTable />
       </div>
     </div>
   );

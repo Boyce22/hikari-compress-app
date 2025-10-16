@@ -9,7 +9,7 @@ interface SectionConfigProps {
 export const SectionConfig = memo(({ icon: Icon, label, description }: SectionConfigProps) => (
   <div className="flex items-center gap-3">
     <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
-      <Icon className="w-5 h-5 text-primary" />
+      <Icon className="w-6 h-6 text-primary" />
     </div>
 
     <div>
