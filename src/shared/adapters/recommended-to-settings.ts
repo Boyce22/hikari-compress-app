@@ -14,11 +14,5 @@ export const RecommendedToSettings = (profile: RecommendedProfile) => ({
   resolution: profile.resolution || '1920x1080',
   fps: profile.fps ?? 30,
   ram: String(profile.recommendedRam ?? 2),
-  keepSubtitles: true,
-  keepAudio: true,
-  audioCodec: 'aac',
-  audioBitrate: '192',
   hardwareAcceleration: !!profile.hardwareAcceleration,
-  outputPath: '',
-  backgroundImage: null,
 });

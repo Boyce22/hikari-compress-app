@@ -18,6 +18,7 @@
       "@/videos/*": ["src/renderer/features/videos/*"],
       "@/history/*": ["src/renderer/features/history/*"],
       "@/settings/*": ["src/renderer/features/settings/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   }
 }

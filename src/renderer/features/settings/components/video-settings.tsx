@@ -1,4 +1,4 @@
-import { Option } from '@/shared/types/option';
+import { Option } from '@/shared/types/Option';
 
 import { SelectField } from '@/components/common/select-field';
 import { SectionConfig } from '@/components/common/section-config';

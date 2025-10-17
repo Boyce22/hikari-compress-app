@@ -1,6 +1,7 @@
 import { RecommendedProfile } from '@/shared/types/recommended-profile';
 import { SystemSpecifications } from '@/shared/types/system-specifications';
 
+
 const DEFAULT_PROFILE: RecommendedProfile = {
   codec: 'h264',
   encoder: 'libx264',
@@ -32,16 +33,16 @@ export const getRecommendedConversionProfile = (specs: SystemSpecifications): Re
   return detectCPUProfile(cpu, cpuCores, ram);
 };
 
-// ---------------------- Helpers ----------------------
-
+// Detecta sistema operacional para ajustes específicos
 const detectOS = (os: string) => {
   const lower = os.toLowerCase().trim();
   return {
     isLinux: lower.includes('linux'),
-    isWindows: lower.includes('win'),
-    isMac: lower.includes('darwin'),
+    isWindows: lower.includes('win') || lower.includes('microsoft'),
+    isMac: lower.includes('darwin') || lower.includes('mac'),
   };
 };
+
 
 // GPU profile agora ajusta RAM, resolução e FPS também
 const detectGPUProfile = (
@@ -66,7 +67,9 @@ const detectGPUProfile = (
       crf: ram >= 16 ? 20 : 23,
       rationale: 'GPU NVIDIA detectada — ajustando resolução, FPS e CRF conforme RAM e CPU.',
     };
-  } else if (lower.includes('amd')) {
+  }
+  
+  if (lower.includes('amd')) {
     profile = {
       codec: 'h265',
       encoder: 'hevc_amf',
@@ -78,7 +81,9 @@ const detectGPUProfile = (
       crf: ram >= 16 ? 20 : 23,
       rationale: 'GPU AMD detectada — ajustando resolução, FPS e CRF conforme RAM e CPU.',
     };
-  } else if (lower.includes('intel')) {
+  } 
+  
+  if (lower.includes('intel')) {
     profile = {
       codec: 'h265',
       encoder: isLinux ? 'hevc_vaapi' : 'hevc_qsv',
