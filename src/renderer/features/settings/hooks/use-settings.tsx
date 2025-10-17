@@ -35,47 +35,36 @@ export const useSettings = () => {
     backgroundImage: null,
   });
 
-  const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
-  };
+  const updateSetting = useCallback(<K extends keyof Settings>(key: K, value: Settings[K]) => {
+    setSettings(prev => ({ ...prev, [key]: value }));
+  }, []);
 
   const handleFolderStorage = useCallback(async () => {
     if (!window.api) return;
-
-    const folder: string[] = await window.api.openFileDialog({
-      options: ['openDirectory'],
-    });
-
-    updateSetting('outputPath', folder[0]);
-  }, []);
+    const folders = await window.api.openFileDialog({ options: ['openDirectory'] });
+    if (folders?.length) updateSetting('outputPath', folders[0].path);
+  }, [updateSetting]);
 
   const handleBackgroundImageUpload = useCallback(async () => {
     if (!window.api) return;
-
-    const files: string[] = await window.api.openFileDialog({
+    const files = await window.api.openFileDialog({
       options: ['openFile'],
       filters: FiltersOptions.IMAGE_FILE_FILTERS,
     });
-
     if (!files?.length) return;
 
-    const storedPath: string = await window.api.storeImage(files[0]);
-
+    const storedPath = await window.api.storeImage(files[0].path);
     updateSetting('backgroundImage', {
       id: crypto.randomUUID(),
-      name: files[0],
-      background: {
-        preview: storedPath,
-        full: storedPath,
-      },
+      name: files[0].path,
+      background: { preview: storedPath, full: storedPath },
     });
-  }, []);
+  }, [updateSetting]);
 
-  const removeBackgroundImage = useCallback(() => updateSetting('backgroundImage', null), []);
+  const removeBackgroundImage = useCallback(() => updateSetting('backgroundImage', null), [updateSetting]);
 
   return {
     settings,
-    setSettings,
     updateSetting,
     handleFolderStorage,
     handleBackgroundImageUpload,

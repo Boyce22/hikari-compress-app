@@ -8,6 +8,7 @@ import { ConvertOptions } from '@/shared/types/convert-options';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
+import { FileDialog } from '@/shared/types/file-dialog';
 
 const ICON_PATH =
   process.platform === 'darwin' ? join(process.resourcesPath, 'icon.icns') : join(process.resourcesPath, 'icon.ico');
@@ -80,11 +81,22 @@ function registerIpcHandlers() {
   ipcMain.handle('get-system-specs', handleGetSystemSpecs);
 }
 
-async function handleOpenFileDialog(_event: any, args: OptionsFileDialog) {
+function handleGetOriginzalFileSize(path: string): number {
+  const win = BrowserWindow.getFocusedWindow();
+  if (!win) return 0;
+  return fs.statSync(path).size;
+}
+
+async function handleOpenFileDialog(_event: any, args: OptionsFileDialog): Promise<FileDialog[]> {
   const win = BrowserWindow.getFocusedWindow();
   if (!win) return [];
-  const result = await dialog.showOpenDialog(win, { properties: args.options, filters: args.filters });
-  return result.filePaths;
+
+  const { filePaths } = await dialog.showOpenDialog(win, { properties: args.options, filters: args.filters });
+
+  return filePaths.map((fp) => ({
+    path: fp,
+    originalSize: handleGetOriginzalFileSize(fp),
+  }));
 }
 
 async function handleStoreImage(_event: any, originalPath: string) {

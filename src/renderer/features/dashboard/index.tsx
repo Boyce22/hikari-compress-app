@@ -2,12 +2,12 @@ import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { useState, useMemo } from 'react';
 import { CardStats } from './components/card-stats';
+import { HistoryTable } from './components/history-table';
 import { CustomTooltip } from './components/custom-tool-tip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
-import { useVideoFiles } from '@/settings/hooks/use-background-image';
+import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
 import { Archive, CloudUpload, Cpu, FileVideo, HardDrive, Zap } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { HistoryTable } from './components/history-table';
 
 const RANGE_OPTIONS = [
   { label: '7 dias', value: 7 },
@@ -49,8 +49,8 @@ const CARDS_STATS = [
 ];
 
 export const Dash = () => {
-  const { handleFileUpload } = useVideoFiles();
   const [range, setRange] = useState(7);
+  const { handleFileUpload } = useVideoFilesContext();
 
   const chartData = useMemo(() => {
     const now = new Date();
@@ -122,11 +122,10 @@ export const Dash = () => {
                       key={option.value}
                       size="sm"
                       variant={range === option.value ? 'default' : 'ghost'}
-                      className={`text-xs ${
-                        range === option.value
+                      className={`text-xs ${range === option.value
                           ? 'bg-primary text-primary-foreground'
                           : 'text-muted-foreground hover:text-foreground'
-                      }`}
+                        }`}
                       onClick={() => setRange(option.value)}
                     >
                       {option.label}

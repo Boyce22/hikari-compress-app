@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import {
   ColumnDef,
@@ -26,12 +26,12 @@ import {
 import { Input } from '@/ui/input';
 import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
-import { MoreHorizontal, ChevronDown, ArrowUpDown } from 'lucide-react';
+import { MoreHorizontal, ChevronDown, ArrowUpDown, Trash2 } from 'lucide-react';
 
-import { historyWithProgressMock } from '@/shared/mocks/video';
+import { VideoFile } from '@/shared/types/video-file';
 import { formatFileSize } from '@/shared/utils/format-file-size';
 import { StatusProcessing } from '@/shared/types/status-processing';
-import { HistoryItemWithProgressCompress } from '@/shared/types/history-item';
+import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
 
 const COLUMN_LABELS: Record<string, string> = {
   select: 'Selecionar',
@@ -39,7 +39,8 @@ const COLUMN_LABELS: Record<string, string> = {
   originalSize: 'Tamanho Original',
   compressedSize: 'Tamanho Compactado',
   compressionRatio: 'Compressão',
-  date: 'Data',
+  uploadedAt: 'Data de Envio',
+  processedAt: 'Data de Processamento',
   progress: 'Progressão',
   actions: 'Ações',
 };
@@ -77,25 +78,42 @@ const ProgressCell = ({ status }: { status: StatusProcessing }) => {
   );
 };
 
-const ActionsCell = ({ name }: { name: string }) => (
+const ActionsCell = ({
+  name,
+  progress,
+}: {
+  name: string;
+  progress: StatusProcessing;
+}) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-        <span className="sr-only">Abrir menu</span>
-        <MoreHorizontal className="h-4 w-4" />
-      </Button>
+      <MoreHorizontal className="h-4 w-4 text-primary-foreground" />
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuLabel>Ações</DropdownMenuLabel>
-      <DropdownMenuItem onClick={() => navigator.clipboard.writeText(name)}>Copiar nome do arquivo</DropdownMenuItem>
+    <DropdownMenuContent align="end" className="w-48 bg-card text-card-foreground rounded-lg shadow-lg p-1">
+      <DropdownMenuLabel className="text-sm font-semibold">Ações</DropdownMenuLabel>
+      <DropdownMenuItem
+        disabled={progress !== StatusProcessing.WAITING}
+        className="text-sm hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        Iniciar Compressão
+      </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={() => navigator.clipboard.writeText(name)}
+        className="text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+      >
+        Copiar nome do arquivo
+      </DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>Baixar arquivo</DropdownMenuItem>
-      <DropdownMenuItem>Remover histórico</DropdownMenuItem>
+      <DropdownMenuItem
+        className="text-sm text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors flex items-center gap-2"
+      >
+        <Trash2 className="h-4 w-4" /> Remover histórico
+      </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
-);
+);;
 
-export const columns: ColumnDef<HistoryItemWithProgressCompress>[] = [
+export const columns: ColumnDef<VideoFile>[] = [
   {
     id: 'select',
     enableSorting: false,
@@ -124,17 +142,34 @@ export const columns: ColumnDef<HistoryItemWithProgressCompress>[] = [
   {
     accessorKey: 'compressedSize',
     header: 'Tamanho Compactado',
-    cell: ({ row }) => formatFileSize(row.getValue<number>('compressedSize')),
+    cell: ({ row }) => {
+      const compressedSize = row.getValue<number>('compressedSize');
+      return compressedSize ? formatFileSize(compressedSize) : null
+    },
   },
   {
     accessorKey: 'compressionRatio',
     header: 'Compressão',
-    cell: ({ row }) => `${(row.getValue<number>('compressionRatio') * 100).toFixed(1)}%`,
+    cell: ({ row }) => {
+      const compressionRatio = row.getValue<number>('compressionRatio');
+      return compressionRatio !== undefined && compressionRatio !== null ? `${(compressionRatio * 100).toFixed(1)}%` : null;
+    },
   },
   {
-    accessorKey: 'date',
-    header: ({ column }) => <SortableHeader column={column} title="Data" />,
-    cell: ({ row }) => new Date(row.getValue<string>('date')).toLocaleString('pt-BR'),
+    accessorKey: 'uploadedAt',
+    header: ({ column }) => <SortableHeader column={column} title="Data de Envio" />,
+    cell: ({ row }) => {
+      const uploadedAt = row.getValue<string>('uploadedAt');
+      return uploadedAt ? new Date(uploadedAt).toLocaleString('pt-BR') : null;
+    },
+  },
+  {
+    accessorKey: 'processedAt',
+    header: ({ column }) => <SortableHeader column={column} title="Data de Processamento" />,
+    cell: ({ row }) => {
+      const processedAt = row.getValue<string>('processedAt');
+      return processedAt ? new Date(processedAt).toLocaleString('pt-BR') : null;
+    },
   },
   {
     accessorKey: 'progress',
@@ -142,17 +177,22 @@ export const columns: ColumnDef<HistoryItemWithProgressCompress>[] = [
     cell: ({ row }) => <ProgressCell status={row.getValue<StatusProcessing>('progress')} />,
     enableSorting: false,
   },
-  { id: 'actions', enableHiding: false, cell: ({ row }) => <ActionsCell name={row.original.name} /> },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => <ActionsCell name={row.original.name} progress={row.original.progress} />
+  },
 ];
 
 export function HistoryTable() {
+  const { videos, startCompression } = useVideoFilesContext()
+  const [selection, setSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [visibility, setVisibility] = useState<VisibilityState>({});
-  const [selection, setSelection] = useState({});
 
   const table = useReactTable({
-    data: historyWithProgressMock,
+    data: useMemo(() => videos, [videos]),
     columns,
     state: { sorting, columnFilters: filters, columnVisibility: visibility, rowSelection: selection },
     onSortingChange: setSorting,
