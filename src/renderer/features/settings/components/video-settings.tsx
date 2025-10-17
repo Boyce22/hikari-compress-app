@@ -33,6 +33,8 @@ const FPS: Option[] = ['24', '25', '30', '60'].map((v) => ({ value: v, label: v 
 
 const RESOLUTIONS: Option[] = [
   { value: 'original', label: 'Original' },
+  { value: '3840x2160', label: '4K (UHD)' },
+  { value: '2560x1440', label: '1440p (QHD)' },
   { value: '1920x1080', label: '1080p (Full HD)' },
   { value: '1280x720', label: '720p (HD)' },
   { value: '854x480', label: '480p (SD)' },

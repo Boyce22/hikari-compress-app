@@ -10,38 +10,29 @@ const DEFAULT_PROFILE: RecommendedProfile = {
   rationale: 'Perfil padrão: bom equilíbrio entre qualidade e velocidade.',
   recommendedRam: 4,
   fps: 30,
-  resolution: '1920x1080',
+  resolution: '1280x720',
 };
 
 export const getRecommendedConversionProfile = (specs: SystemSpecifications): RecommendedProfile => {
   if (!specs || !specs.cpu) {
-    return { ...DEFAULT_PROFILE, rationale: 'Falha ao ler especificações. Usando perfil padrão.' };
+    return { ...DEFAULT_PROFILE, rationale: 'Falha ao ler specs. Usando perfil padrão.' };
   }
 
   const { cpu, cpuCores, gpu, gpuAvailable, ram, os } = specs;
+
   const osFlags = detectOS(os);
 
+  // GPU detectada primeiro
   if (gpuAvailable && gpu) {
-    const gpuProfile = detectGPUProfile(gpu, osFlags);
-    if (gpuProfile) return { ...DEFAULT_PROFILE, ...gpuProfile };
+    const gpuProfile = detectGPUProfile(gpu, osFlags, ram, cpuCores);
+    if (gpuProfile) return gpuProfile;
   }
 
-  const cpuProfile = detectCPUProfile(cpu, cpuCores, ram);
-
-  if (shouldUseAV1(cpu, cpuCores, ram, !!cpuProfile.hardwareAcceleration)) {
-    return {
-      ...DEFAULT_PROFILE,
-      codec: 'av1',
-      encoder: 'libaom-av1',
-      crf: 30,
-      preset: 'good',
-      hardwareAcceleration: false,
-      rationale: 'CPU muito potente — usando AV1 (melhor compressão, codificação mais lenta).',
-    };
-  }
-
-  return { ...DEFAULT_PROFILE, ...cpuProfile };
+  // CPU fallback
+  return detectCPUProfile(cpu, cpuCores, ram);
 };
+
+// ---------------------- Helpers ----------------------
 
 const detectOS = (os: string) => {
   const lower = os.toLowerCase().trim();
@@ -52,73 +43,111 @@ const detectOS = (os: string) => {
   };
 };
 
+// GPU profile agora ajusta RAM, resolução e FPS também
 const detectGPUProfile = (
   gpu: string,
   { isLinux, isWindows }: { isLinux: boolean; isWindows: boolean },
-): Partial<RecommendedProfile> | null => {
+  ram: number,
+  cores: number
+): RecommendedProfile | null => {
   const lower = gpu.toLowerCase().trim();
 
-  const GPU_MAP: Record<string, () => Partial<RecommendedProfile>> = {
-    nvidia: () => ({
+  let profile: RecommendedProfile | null = null;
+
+  if (lower.includes('nvidia')) {
+    profile = {
       codec: 'h265',
       encoder: 'hevc_nvenc',
-      preset: 'medium', // Alterado de 'p4' para 'medium'
+      preset: 'medium',
       hardwareAcceleration: true,
-      rationale: 'GPU NVIDIA detectada — usando NVENC HEVC (rápido e eficiente).',
-    }),
-    amd: () => ({
+      recommendedRam: Math.min(Math.floor(ram / 4) * 2, 8), // escala RAM
+      resolution: ram >= 16 ? '2560x1440' : '1920x1080', // PCs gamers maiores
+      fps: cores >= 8 ? 60 : 30,
+      crf: ram >= 16 ? 20 : 23,
+      rationale: 'GPU NVIDIA detectada — ajustando resolução, FPS e CRF conforme RAM e CPU.',
+    };
+  } else if (lower.includes('amd')) {
+    profile = {
       codec: 'h265',
       encoder: 'hevc_amf',
-      preset: 'medium', // Alterado de 'balanced' para 'medium'
+      preset: 'medium',
       hardwareAcceleration: true,
-      rationale: 'GPU AMD detectada — usando AMF HEVC (boa qualidade e desempenho).',
-    }),
-    intel: () => ({
+      recommendedRam: Math.min(Math.floor(ram / 4) * 2, 8),
+      resolution: ram >= 16 ? '2560x1440' : '1920x1080',
+      fps: cores >= 8 ? 60 : 30,
+      crf: ram >= 16 ? 20 : 23,
+      rationale: 'GPU AMD detectada — ajustando resolução, FPS e CRF conforme RAM e CPU.',
+    };
+  } else if (lower.includes('intel')) {
+    profile = {
       codec: 'h265',
       encoder: isLinux ? 'hevc_vaapi' : 'hevc_qsv',
-      preset: 'medium', // Alterado de 'balanced' para 'medium'
+      preset: 'medium',
       hardwareAcceleration: true,
-      rationale: 'GPU Intel detectada — usando VAAPI/QSV HEVC.',
-    }),
-  };
+      recommendedRam: Math.min(Math.floor(ram / 4) * 2, 8),
+      resolution: ram >= 16 ? '1920x1080' : '1280x720',
+      fps: cores >= 8 ? 60 : 30,
+      crf: 23,
+      rationale: 'GPU Intel detectada — usando VAAPI/QSV, ajustando resolução e FPS.',
+    };
+  }
 
-  const match = Object.keys(GPU_MAP).find((key) => lower.includes(key));
-
-  return match && (isLinux || isWindows) ? GPU_MAP[match]() : null;
+  return profile;
 };
 
-const detectCPUProfile = (_cpu: string, cores: number, ram: number): Partial<RecommendedProfile> => {
-  if (cores >= 8 && ram >= 16) {
+// CPU fallback agora também ajusta tudo baseado em cores e RAM
+const detectCPUProfile = (_cpu: string, cores: number, ram: number): RecommendedProfile => {
+  if (cores >= 12 && ram >= 16) {
+    return {
+      codec: 'av1',
+      encoder: 'libaom-av1',
+      preset: 'good',
+      hardwareAcceleration: false,
+      recommendedRam: 8,
+      resolution: '2560x1440',
+      fps: 60,
+      crf: 25,
+      rationale: 'CPU muito potente e RAM alta — usando AV1 para melhor compressão.',
+    };
+  }
+
+  if (cores >= 8 && ram >= 8) {
     return {
       codec: 'h265',
       encoder: 'libx265',
       preset: 'slow',
-      recommendedRam: 8,
-      rationale: 'CPU forte e RAM alta — H.265 (libx265) com preset lento para máxima qualidade.',
+      hardwareAcceleration: false,
+      recommendedRam: 6,
+      resolution: '1920x1080',
+      fps: 30,
+      crf: 23,
+      rationale: 'CPU forte — H.265 com preset lento para qualidade máxima.',
     };
   }
 
-  if (cores >= 4 && ram >= 8) {
+  if (cores >= 4 && ram >= 4) {
     return {
       codec: 'h264',
       encoder: 'libx264',
       preset: 'medium',
+      hardwareAcceleration: false,
       recommendedRam: 4,
-      rationale: 'CPU intermediária — H.264 (libx264) para bom equilíbrio entre velocidade e qualidade.',
+      resolution: '1280x720',
+      fps: 30,
+      crf: 25,
+      rationale: 'CPU intermediária — H.264, equilibrando velocidade e qualidade.',
     };
   }
 
   return {
     codec: 'h264',
     encoder: 'libx264',
-    crf: 28,
     preset: 'ultrafast',
+    hardwareAcceleration: false,
     recommendedRam: 2,
-    rationale: 'Recursos limitados — priorizando velocidade com H.264 e preset ultrarrápido.',
+    resolution: '854x480',
+    fps: 24,
+    crf: 28,
+    rationale: 'Recursos limitados — priorizando velocidade e compatibilidade.',
   };
-};
-
-const shouldUseAV1 = (cpu: string, cores: number, ram: number, hwAccel: boolean): boolean => {
-  const strongCPU = /(ryzen|core i\d|xeon)/i.test(cpu.toLowerCase().trim());
-  return !hwAccel && ram >= 16 && cores >= 12 && strongCPU;
 };
