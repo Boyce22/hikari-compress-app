@@ -6,7 +6,7 @@ export type Settings = {
   preset: string;
   resolution: string;
   fps: number;
-  ram: string;
+  ram: number;
   keepSubtitles: boolean;
   keepAudio: boolean;
   audioCodec: string;

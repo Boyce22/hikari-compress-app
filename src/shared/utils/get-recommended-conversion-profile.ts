@@ -1,28 +1,36 @@
 import { RecommendedProfile } from '@/shared/types/recommended-profile';
 import { SystemSpecifications } from '@/shared/types/system-specifications';
 
+const DEFAULT_PROFILE: RecommendedProfile = {
+  codec: 'h264',
+  encoder: 'libx264',
+  crf: 23,
+  preset: 'medium',
+  hardwareAcceleration: false,
+  rationale: 'Perfil padrão: bom equilíbrio entre qualidade e velocidade.',
+  recommendedRam: 4,
+  fps: 30,
+  resolution: '1920x1080',
+};
+
 export const getRecommendedConversionProfile = (specs: SystemSpecifications): RecommendedProfile => {
+  if (!specs || !specs.cpu) {
+    return { ...DEFAULT_PROFILE, rationale: 'Falha ao ler especificações. Usando perfil padrão.' };
+  }
+
   const { cpu, cpuCores, gpu, gpuAvailable, ram, os } = specs;
   const osFlags = detectOS(os);
 
-  const baseProfile: RecommendedProfile = {
-    codec: 'h264',
-    encoder: 'libx264',
-    crf: 23,
-    preset: 'medium',
-    hardwareAcceleration: false,
-    rationale: '',
-  };
-
   if (gpuAvailable && gpu) {
     const gpuProfile = detectGPUProfile(gpu, osFlags);
-    if (gpuProfile) return gpuProfile;
+    if (gpuProfile) return { ...DEFAULT_PROFILE, ...gpuProfile };
   }
 
-  const cpuProfile = detectCPUProfile(cpu, cpuCores, ram, baseProfile);
+  const cpuProfile = detectCPUProfile(cpu, cpuCores, ram);
 
-  if (shouldUseAV1(cpu, cpuCores, ram, cpuProfile.hardwareAcceleration)) {
+  if (shouldUseAV1(cpu, cpuCores, ram, !!cpuProfile.hardwareAcceleration)) {
     return {
+      ...DEFAULT_PROFILE,
       codec: 'av1',
       encoder: 'libaom-av1',
       crf: 30,
@@ -32,48 +40,45 @@ export const getRecommendedConversionProfile = (specs: SystemSpecifications): Re
     };
   }
 
-  return cpuProfile;
+  return { ...DEFAULT_PROFILE, ...cpuProfile };
 };
 
 const detectOS = (os: string) => {
-  const lower = os.toLowerCase();
+  const lower = os.toLowerCase().trim();
   return {
     isLinux: lower.includes('linux'),
     isWindows: lower.includes('win'),
-    isMac: lower.includes('mac'),
+    isMac: lower.includes('darwin'),
   };
 };
 
 const detectGPUProfile = (
   gpu: string,
   { isLinux, isWindows }: { isLinux: boolean; isWindows: boolean },
-): RecommendedProfile | null => {
-  const lower = gpu.toLowerCase();
+): Partial<RecommendedProfile> | null => {
+  const lower = gpu.toLowerCase().trim();
 
-  const GPU_MAP: Record<string, () => RecommendedProfile> = {
+  const GPU_MAP: Record<string, () => Partial<RecommendedProfile>> = {
     nvidia: () => ({
       codec: 'h265',
       encoder: 'hevc_nvenc',
-      crf: 23,
-      preset: 'p4',
+      preset: 'medium', // Alterado de 'p4' para 'medium'
       hardwareAcceleration: true,
-      rationale: 'GPU NVIDIA — NVENC HEVC (rápido e eficiente).',
+      rationale: 'GPU NVIDIA detectada — usando NVENC HEVC (rápido e eficiente).',
     }),
     amd: () => ({
       codec: 'h265',
       encoder: 'hevc_amf',
-      crf: 23,
-      preset: 'balanced',
+      preset: 'medium', // Alterado de 'balanced' para 'medium'
       hardwareAcceleration: true,
-      rationale: 'GPU AMD — AMF HEVC (boa qualidade e desempenho).',
+      rationale: 'GPU AMD detectada — usando AMF HEVC (boa qualidade e desempenho).',
     }),
     intel: () => ({
       codec: 'h265',
       encoder: isLinux ? 'hevc_vaapi' : 'hevc_qsv',
-      crf: 23,
-      preset: 'balanced',
+      preset: 'medium', // Alterado de 'balanced' para 'medium'
       hardwareAcceleration: true,
-      rationale: 'GPU Intel — VAAPI/QSV HEVC.',
+      rationale: 'GPU Intel detectada — usando VAAPI/QSV HEVC.',
     }),
   };
 
@@ -82,42 +87,38 @@ const detectGPUProfile = (
   return match && (isLinux || isWindows) ? GPU_MAP[match]() : null;
 };
 
-const detectCPUProfile = (_cpu: string, cores: number, ram: number, base: RecommendedProfile): RecommendedProfile => {
-  const CPU_MAP: Record<string, () => RecommendedProfile> = {
-    high: () => ({
-      ...base,
+const detectCPUProfile = (_cpu: string, cores: number, ram: number): Partial<RecommendedProfile> => {
+  if (cores >= 8 && ram >= 16) {
+    return {
       codec: 'h265',
       encoder: 'libx265',
-      crf: 23,
       preset: 'slow',
-      rationale: 'CPU forte e RAM alta — H.265 (libx265) com preset lento.',
-    }),
-    mid: () => ({
-      ...base,
+      recommendedRam: 8,
+      rationale: 'CPU forte e RAM alta — H.265 (libx265) com preset lento para máxima qualidade.',
+    };
+  }
+
+  if (cores >= 4 && ram >= 8) {
+    return {
       codec: 'h264',
       encoder: 'libx264',
-      crf: 23,
       preset: 'medium',
-      rationale: 'CPU intermediária — H.264 (libx264) para bom equilíbrio.',
-    }),
-    low: () => ({
-      ...base,
-      codec: 'h264',
-      encoder: 'libx264',
-      crf: 28,
-      preset: 'ultrafast',
-      rationale: 'CPU limitada — priorizando velocidade com H.264 ultrafast.',
-    }),
+      recommendedRam: 4,
+      rationale: 'CPU intermediária — H.264 (libx264) para bom equilíbrio entre velocidade e qualidade.',
+    };
+  }
+
+  return {
+    codec: 'h264',
+    encoder: 'libx264',
+    crf: 28,
+    preset: 'ultrafast',
+    recommendedRam: 2,
+    rationale: 'Recursos limitados — priorizando velocidade com H.264 e preset ultrarrápido.',
   };
-
-  if (cores >= 8 && ram >= 16) return CPU_MAP.high();
-
-  if (cores >= 4 && ram >= 8) return CPU_MAP.mid();
-
-  return CPU_MAP.low();
 };
 
 const shouldUseAV1 = (cpu: string, cores: number, ram: number, hwAccel: boolean): boolean => {
-  const strongCPU = /(ryzen|intel core|xeon)/i.test(cpu);
+  const strongCPU = /(ryzen|core i\d|xeon)/i.test(cpu.toLowerCase().trim());
   return !hwAccel && ram >= 16 && cores >= 12 && strongCPU;
 };

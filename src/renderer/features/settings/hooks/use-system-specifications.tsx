@@ -6,26 +6,37 @@ const DEFAULT_SPECFICATIONS: SystemSpecifications = {
   cpuCores: 4,
   gpu: '',
   os: '',
-  ram: 2, 
+  ram: 2,
   gpuAvailable: false,
+  ramTotalGB: 2,
+  isGpuDedicated: false,
+  isRamInteger: true,
+  gpuMemoryMB: null,
 };
 
 export const useSystemSpecifications = () => {
   const [specifications, setSpecifications] = useState<SystemSpecifications>(DEFAULT_SPECFICATIONS);
+  const [loading, setLoading] = useState(true);
 
   const getSystemSpecs = useCallback(async () => {
-    if (!window.api) return;
+    setLoading(true);
     try {
-      const specs = await window.api.getSystemSpecs();
-      console.log('Especificações do sistema obtidas com sucesso:', specs);
-      if (specs) {
-        setSpecifications(specs);
+      if (!window.api?.getSystemSpecs) {
+        console.error('API getSystemSpecs não encontrada no preload.');
+        setSpecifications(DEFAULT_SPECFICATIONS);
+        return;
       }
+
+      const specs: SystemSpecifications = await window.api.getSystemSpecs();
+      console.log('Especificações do sistema obtidas:', specs);
+      setSpecifications(specs || DEFAULT_SPECFICATIONS);
     } catch (error) {
       console.error('Falha ao obter especificações do sistema:', error);
-      setSpecifications(DEFAULT_SPECFICATIONS); // Reverte para valores padrão em caso de erro
+      setSpecifications(DEFAULT_SPECFICATIONS);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  return { specifications, getSystemSpecs };
+  return { specifications, getSystemSpecs, loading };
 };
