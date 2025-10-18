@@ -184,8 +184,8 @@ export const columns: ColumnDef<VideoFile>[] = [
   },
 ];
 
-export function HistoryTable() {
-  const { videos, startCompression } = useVideoFilesContext()
+export function VideoTable() {
+  const { videos } = useVideoFilesContext()
   const [selection, setSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filters, setFilters] = useState<ColumnFiltersState>([]);

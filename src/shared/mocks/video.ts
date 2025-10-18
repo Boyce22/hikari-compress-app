@@ -1,7 +1,7 @@
-import { HistoryItem } from '../types/history-item';
+import { VideoFile } from '../types/video';
 import { StatusProcessing } from '../types/status-processing';
 
-export const historyMock: HistoryItem[] = [
+export const videoMock: VideoFile[] = [
   {
     id: '1',
     name: 'video-intro.mp4',
@@ -11,6 +11,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '2',
@@ -21,6 +23,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '3',
@@ -31,6 +35,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 40,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '4',
@@ -41,6 +47,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '5',
@@ -51,6 +59,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '6',
@@ -61,6 +71,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 34,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '7',
@@ -71,6 +83,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '8',
@@ -81,6 +95,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '9',
@@ -91,6 +107,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '10',
@@ -101,6 +119,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 34,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '11',
@@ -111,6 +131,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '12',
@@ -121,6 +143,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '13',
@@ -131,6 +155,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '14',
@@ -141,6 +167,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 37,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '15',
@@ -151,6 +179,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '16',
@@ -161,6 +191,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '17',
@@ -171,6 +203,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '18',
@@ -181,6 +215,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 36,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '19',
@@ -191,6 +227,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '20',
@@ -201,6 +239,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '21',
@@ -211,6 +251,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 31,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '22',
@@ -221,6 +263,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '23',
@@ -231,6 +275,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '24',
@@ -241,6 +287,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '25',
@@ -251,6 +299,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 28,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '26',
@@ -261,6 +311,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '27',
@@ -271,6 +323,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '28',
@@ -281,6 +335,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '29',
@@ -291,6 +347,8 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
   {
     id: '30',
@@ -301,5 +359,7 @@ export const historyMock: HistoryItem[] = [
     processedAt: '2026-10-10T10:30:00',
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
+    createdAt: '',
+    updatedAt: ''
   },
 ];

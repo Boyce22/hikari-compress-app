@@ -1,14 +1,21 @@
 import fs from 'fs';
 import crypto from 'crypto';
-import { compress } from './node/compress';
 import { join, basename, extname } from 'path';
 import iconDev from '../../resources/icon.ico?asset';
+
+import { compress } from './node/compress';
 import { getSystemSpecs } from './node/get-system-specs';
-import { ConvertOptions } from '@/shared/types/convert-options';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
-import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
+import { initializeDatabase, runMigrations } from './node/database';
+
 import { FileDialog } from '@/shared/types/file-dialog';
+import { ConvertOptions } from '@/shared/types/convert-options';
+import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
+
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
+
+import { VideoRepository } from './node/repository';
+import { FindAllVideoParams } from '@/shared/types/video';
 
 const ICON_PATH =
   process.platform === 'darwin' ? join(process.resourcesPath, 'icon.icns') : join(process.resourcesPath, 'icon.ico');
@@ -25,6 +32,7 @@ function initApp(): void {
   app.whenReady().then(() => {
     setupApp();
     registerBackgroundProtocol();
+    handleInitializeDatabase();
     registerIpcHandlers();
     createMainWindow();
     setupMacOSActivate();
@@ -79,6 +87,12 @@ function registerIpcHandlers() {
   ipcMain.handle('close', handleClose);
   ipcMain.handle('compress-video', handleCompressVideo);
   ipcMain.handle('get-system-specs', handleGetSystemSpecs);
+  ipcMain.handle('find-all-video', handleFindAllVideo);
+}
+
+function handleFindAllVideo(_event: any, params: FindAllVideoParams) {
+  const repository = new VideoRepository();
+  return repository.findAll(params);
 }
 
 function handleGetOriginzalFileSize(path: string): number {
@@ -145,6 +159,20 @@ async function handleCompressVideo(_event: any, options: ConvertOptions) {
 
 async function handleGetSystemSpecs() {
   return await getSystemSpecs();
+}
+
+async function handleInitializeDatabase() {
+  try {
+    const dbManager = initializeDatabase();
+
+    console.log('Database health check:', dbManager.healthCheck() ? 'PASS' : 'FAIL');
+    console.log('Database size:', dbManager.getDatabaseSize(), 'bytes');
+
+    runMigrations();
+    console.log('Database test completed successfully');
+  } catch (error) {
+    console.error('Error during initialize database');
+  }
 }
 
 function registerBackgroundProtocol() {

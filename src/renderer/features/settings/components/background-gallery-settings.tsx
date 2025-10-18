@@ -23,14 +23,14 @@ interface BackgroundCarouselItemProps {
 }
 
 const ANIME_BACKGROUNDS: BackgroundImage[] = [
-  { id: '1', background: BACKGROUNDS.ANIME_BG_1, name: 'Osaka' },
-  { id: '2', background: BACKGROUNDS.ANIME_BG_2, name: 'City' },
-  { id: '3', background: BACKGROUNDS.ANIME_BG_3, name: 'Peace' },
-  { id: '4', background: BACKGROUNDS.ANIME_BG_4, name: 'Dragon' },
-  { id: '5', background: BACKGROUNDS.ANIME_BG_5, name: 'Mirror' },
-  { id: '6', background: BACKGROUNDS.ANIME_BG_6, name: 'Sunset' },
-  { id: '7', background: BACKGROUNDS.ANIME_BG_7, name: 'Night' },
-  { id: '8', background: BACKGROUNDS.ANIME_BG_8, name: 'Moon' },
+  { id: '1', ...BACKGROUNDS.ANIME_BG_1, name: 'Osaka' },
+  { id: '2', ...BACKGROUNDS.ANIME_BG_2, name: 'City' },
+  { id: '3', ...BACKGROUNDS.ANIME_BG_3, name: 'Peace' },
+  { id: '4', ...BACKGROUNDS.ANIME_BG_4, name: 'Dragon' },
+  { id: '5', ...BACKGROUNDS.ANIME_BG_5, name: 'Mirror' },
+  { id: '6', ...BACKGROUNDS.ANIME_BG_6, name: 'Sunset' },
+  { id: '7', ...BACKGROUNDS.ANIME_BG_7, name: 'Night' },
+  { id: '8', ...BACKGROUNDS.ANIME_BG_8, name: 'Moon' },
 ];
 
 const BackgroundThumbnail = memo(({ src, alt, className = '' }: BackgroundThumbnailProps) => {
@@ -58,7 +58,7 @@ const BackgroundCarouselItem = memo(({ bg, isActive, onSelect }: BackgroundCarou
       data-active={isActive}
       className="cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-200 hover:border-primary border-border data-[active=true]:border-primary data-[active=true]:ring-2 data-[active=true]:ring-primary/50"
     >
-      <BackgroundThumbnail src={bg.background.preview} alt={bg.name} />
+      <BackgroundThumbnail src={bg.preview} alt={bg.name} />
       <div className="p-2 bg-card/80 backdrop-blur-sm">
         <p className="text-xs font-medium text-center">{bg.name}</p>
       </div>

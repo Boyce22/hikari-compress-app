@@ -2,7 +2,7 @@ import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { useState, useMemo } from 'react';
 import { CardStats } from './components/card-stats';
-import { HistoryTable } from './components/history-table';
+import { VideoTable } from './components/video-table';
 import { CustomTooltip } from './components/custom-tool-tip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
 import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
@@ -123,8 +123,8 @@ export const Dash = () => {
                       size="sm"
                       variant={range === option.value ? 'default' : 'ghost'}
                       className={`text-xs ${range === option.value
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                       onClick={() => setRange(option.value)}
                     >
@@ -193,7 +193,7 @@ export const Dash = () => {
           </TabsContent>
         </Tabs>
 
-        <HistoryTable />
+        <VideoTable />
       </div>
     </div>
   );

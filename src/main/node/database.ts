@@ -19,8 +19,8 @@ const DB_PRAGMAS = {
 };
 
 const TABLE_SCHEMAS = {
-  HISTORY: `
-    CREATE TABLE IF NOT EXISTS history (
+  VIDEO: `
+    CREATE TABLE IF NOT EXISTS video (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
       uploaded_at TEXT NOT NULL,
@@ -49,18 +49,29 @@ const TABLE_SCHEMAS = {
       audio_bitrate TEXT NOT NULL DEFAULT '128k',
       hardware_acceleration INTEGER NOT NULL DEFAULT 0,
       output_path TEXT,
-      background_image TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      background_id TEXT,
+      FOREIGN KEY (background_id) REFERENCES background(id)
+    )
+  `,
+  BACKGROUND: `
+    CREATE TABLE IF NOT EXISTS background (
+      id TEXT PRIMARY KEY,
+      url_full TEXT NOT NULL,
+      url_preview TEXT NOT NULL,
+      updated_at DATETIME,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      status INTEGER DEFAULT 1
     )
   `,
 };
 
 const TABLE_INDEXES = {
-  HISTORY: [
-    'CREATE INDEX IF NOT EXISTS idx_history_progress ON history(progress)',
-    'CREATE INDEX IF NOT EXISTS idx_history_uploaded_at ON history(uploaded_at DESC)',
-    'CREATE INDEX IF NOT EXISTS idx_history_compression_ratio ON history(compression_ratio) WHERE compression_ratio IS NOT NULL',
+  VIDEO: [
+    'CREATE INDEX IF NOT EXISTS idx_video_progress ON video(progress)',
+    'CREATE INDEX IF NOT EXISTS idx_video_uploaded_at ON video(uploaded_at DESC)',
+    'CREATE INDEX IF NOT EXISTS idx_video_compression_ratio ON video(compression_ratio) WHERE compression_ratio IS NOT NULL',
   ],
 };
 
@@ -74,11 +85,11 @@ const DEFAULT_SETTINGS: Settings = {
   resolution: '1920x1080',
   fps: 30,
   ram: 2,
-  keepSubtitles: true,
-  keepAudio: true,
+  keepSubtitles: 1,
+  keepAudio: 1,
   audioCodec: 'aac',
   audioBitrate: '128k',
-  hardwareAcceleration: false,
+  hardwareAcceleration: 0,
   outputPath: '/Downloads/HikariCompress',
   backgroundImage: null,
 };
@@ -137,8 +148,9 @@ class DatabaseManager {
     this.db.exec('BEGIN TRANSACTION;');
 
     try {
-      this.createTable('history', TABLE_SCHEMAS.HISTORY);
-      this.createIndexes('history', TABLE_INDEXES.HISTORY);
+      this.createTable('video', TABLE_SCHEMAS.VIDEO);
+      this.createTable('background', TABLE_SCHEMAS.BACKGROUND);
+      this.createIndexes('video', TABLE_INDEXES.VIDEO);
 
       this.createTable('settings', TABLE_SCHEMAS.SETTINGS);
 
@@ -184,7 +196,7 @@ class DatabaseManager {
       keepSubtitles: Number(keepSubtitles),
       keepAudio: Number(keepAudio),
       hardwareAcceleration: Number(hardwareAcceleration),
-      backgroundImage: backgroundImage ? JSON.stringify(backgroundImage) : null,
+      backgroundId: null,
     });
 
     this.db.exec('BEGIN;');
@@ -193,11 +205,13 @@ class DatabaseManager {
         INSERT OR IGNORE INTO settings (
           id, codec, quality, preset, resolution, fps, ram,
           keep_subtitles, keep_audio, audio_codec, audio_bitrate,
-          hardware_acceleration, output_path, background_image
+          hardware_acceleration, output_path,
+          background_id
         ) VALUES (
           $id, $codec, $quality, $preset, $resolution, $fps, $ram,
           $keep_subtitles, $keep_audio, $audio_codec, $audio_bitrate,
-          $hardware_acceleration, $output_path, $background_image
+          $hardware_acceleration, $output_path,
+          $background_id
         )
       `);
 
@@ -252,6 +266,8 @@ export const camelToSnake = <T extends Record<string, any>>(obj: T): Record<stri
     return acc;
   }, {});
 
+export const camelToSnakeKey = (key: string) => key.replace(/[A-Z]/g, (m) => `_${m.toLowerCase()}`);
+
 export const initializeDatabase = (): DatabaseManager => {
   const dbManager = DatabaseManager.getInstance();
 
@@ -285,16 +301,6 @@ export const runMigrations = (): void => {
       console.error(`Failed to apply migration ${index + 1}:`, error);
     }
   });
-};
-
-export const testDatabase  = (): void => {
-  const dbManager = initializeDatabase();
-
-  console.log('Database health check:', dbManager.healthCheck() ? 'PASS' : 'FAIL');
-  console.log('Database size:', dbManager.getDatabaseSize(), 'bytes');
-
-  runMigrations();
-  console.log('Database test completed successfully');
 };
 
 export type { DatabaseManager };

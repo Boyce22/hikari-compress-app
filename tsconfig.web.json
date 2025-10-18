@@ -16,7 +16,6 @@
       "@/assets/*": ["src/renderer/assets/*"],
       "@/lib/*": ["src/renderer/lib/*"],
       "@/videos/*": ["src/renderer/features/videos/*"],
-      "@/history/*": ["src/renderer/features/history/*"],
       "@/settings/*": ["src/renderer/features/settings/*"]
     }
   }
