@@ -1,6 +1,6 @@
 {
   "name": "hikari-compress",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "O HikariCompress é um aplicativo open-source, desenvolvido em Node.js e Electron, criado para quem ama assistir e colecionar animes sem se preocupar com o tamanho dos arquivos. Ele utiliza codecs modernos e ajustes inteligentes de compressão para reduzir drasticamente o tamanho dos vídeos sem comprometer a qualidade — preservando cores vibrantes, legendas nítidas e fluidez nas animações.",
   "main": "./out/main/index.js",
   "author": "Bernardo Alves - Boyce22",
