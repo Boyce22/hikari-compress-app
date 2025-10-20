@@ -15,7 +15,6 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
 
 import { VideoRepository } from './node/repository';
-import { FindAllVideoParams } from '@/shared/types/video';
 
 const ICON_PATH =
   process.platform === 'darwin' ? join(process.resourcesPath, 'icon.icns') : join(process.resourcesPath, 'icon.ico');
@@ -87,12 +86,12 @@ function registerIpcHandlers() {
   ipcMain.handle('close', handleClose);
   ipcMain.handle('compress-video', handleCompressVideo);
   ipcMain.handle('get-system-specs', handleGetSystemSpecs);
-  ipcMain.handle('find-all-video', handleFindAllVideo);
+  ipcMain.handle('find-all-videos', handleFindAllVideo);
 }
 
-function handleFindAllVideo(_event: any, params: FindAllVideoParams) {
+function handleFindAllVideo(_event: any) {
   const repository = new VideoRepository();
-  return repository.findAll(params);
+  return repository.findAll();
 }
 
 function handleGetOriginzalFileSize(path: string): number {

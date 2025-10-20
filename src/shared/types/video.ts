@@ -8,7 +8,7 @@ export interface VideoFile {
   processedAt?: string;
   compressedSize?: number;
   compressionRatio?: number;
-  progress?: StatusProcessing;
+  progress: StatusProcessing;
   createdAt: string;
   updatedAt: string;
 }
@@ -31,8 +31,8 @@ export const convertRawToVideoObject = (raw: Record<string, any>): VideoFile => 
 export interface FindAllVideoParams {
   page?: number;
   limit?: number;
-  orderBy?: keyof VideoFile;
-  orderDir?: 'ASC' | 'DESC';
+  orderBy?: (keyof VideoFile)[];
+  orderDir?: ('ASC' | 'DESC')[]
 }
 
 export interface PaginatedVideo {

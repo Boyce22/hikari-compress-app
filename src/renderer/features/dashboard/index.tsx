@@ -5,7 +5,6 @@ import { CardStats } from './components/card-stats';
 import { VideoTable } from './components/video-table';
 import { CustomTooltip } from './components/custom-tool-tip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
-import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
 import { Archive, CloudUpload, Cpu, FileVideo, HardDrive, Zap } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -50,7 +49,6 @@ const CARDS_STATS = [
 
 export const Dash = () => {
   const [range, setRange] = useState(7);
-  const { handleFileUpload } = useVideoFilesContext();
 
   const chartData = useMemo(() => {
     const now = new Date();
@@ -82,7 +80,7 @@ export const Dash = () => {
             </div>
           </div>
 
-          <Button onClick={handleFileUpload} className="bg-primary hover:bg-primary/90">
+          <Button onClick={() => undefined} className="bg-primary hover:bg-primary/90">
             <CloudUpload className="w-4 h-4 mr-2" /> Upload
           </Button>
         </div>

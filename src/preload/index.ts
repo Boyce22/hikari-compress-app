@@ -2,12 +2,11 @@ import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 import { ConvertOptions } from '@/shared/types/convert-options';
 import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
-import { FindAllVideoParams } from '@/shared/types/video';
 
 // Custom APIs for renderer
 const api = {
   close: async () => await ipcRenderer.invoke('close'),
-  findAllVideos: async (params: FindAllVideoParams) => ipcRenderer.invoke('find-all-videos', params),
+  findAllVideos: async () => ipcRenderer.invoke('find-all-videos'),
   maximizeRestore: async () => await ipcRenderer.invoke('maximize-restore'),
   minimize: async () => await ipcRenderer.invoke('minimize'),
   openFileDialog: async (args: OptionsFileDialog) => await ipcRenderer.invoke('open-file-dialog', args),

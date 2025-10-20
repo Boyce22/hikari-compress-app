@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
+import { convertRawToVideoObject, VideoFile } from '../../../shared/types/video';
 import { camelToSnake, camelToSnakeKey, DatabaseManager, getDatabaseManager } from '../database';
-import { convertRawToVideoObject, FindAllVideoParams, VideoFile, PaginatedVideo } from '../../../shared/types/video';
 
 export class VideoRepository {
   private db: DatabaseSync;
@@ -24,30 +24,16 @@ export class VideoRepository {
     stmt.run(record);
   }
 
-  public findAll({
-    page = 1,
-    limit = 10,
-    orderBy = 'uploadedAt',
-    orderDir = 'DESC',
-  }: FindAllVideoParams = {}): PaginatedVideo {
-    const offset = (page - 1) * limit;
-
+  public findAll(): VideoFile[] {
     const stmt = this.db.prepare(`
       SELECT *
       FROM video
-      ORDER BY ${camelToSnakeKey(orderBy)} ${orderDir}
-      LIMIT $limit OFFSET $offset
+      ORDER BY id DESC
     `);
 
-    const totalStmt = this.db.prepare(`SELECT COUNT(*) as total FROM video`);
+    const rows = stmt.all();
 
-    const total = totalStmt.get()?.total ?? 0;
-
-    const rows = stmt.all({ limit, offset });
-
-    const items = rows.length ? rows.map(convertRawToVideoObject) : [];
-
-    return { items, total: Number(total), page, limit };
+    return rows.length ? rows.map(convertRawToVideoObject) : [];
   }
 
   public findById({ id }: { id: string }): VideoFile {

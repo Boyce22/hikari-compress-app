@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import {
   ColumnDef,
@@ -28,7 +28,7 @@ import { Button } from '@/ui/button';
 import { Checkbox } from '@/ui/checkbox';
 import { MoreHorizontal, ChevronDown, ArrowUpDown, Trash2 } from 'lucide-react';
 
-import { VideoFile } from '@/shared/types/video-file';
+import { VideoFile } from '@/shared/types/video';
 import { formatFileSize } from '@/shared/utils/format-file-size';
 import { StatusProcessing } from '@/shared/types/status-processing';
 import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
@@ -185,11 +185,15 @@ export const columns: ColumnDef<VideoFile>[] = [
 ];
 
 export function VideoTable() {
-  const { videos } = useVideoFilesContext()
+  const { videos, fetchVideos } = useVideoFilesContext()
   const [selection, setSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [visibility, setVisibility] = useState<VisibilityState>({});
+
+  useEffect(() => {
+    fetchVideos()
+  }, [])
 
   const table = useReactTable({
     data: useMemo(() => videos, [videos]),
