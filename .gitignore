@@ -1,7 +1,24 @@
-node_modules
-dist
-out
+# Node modules
+node_modules/
+
+# Build output
+dist/
+out/
+build/
+
+# System files
 .DS_Store
-.eslintcache
+Thumbs.db
+
+# Logs
 *.log*
+
+# Environment variables
 .env
+
+# Editor/IDE files
+.vscode/
+.idea/
+
+# ESLint cache
+.eslintcache

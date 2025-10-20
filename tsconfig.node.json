@@ -9,6 +9,7 @@
       "@/shared/*": ["src/shared/*"],
       "@/main/*": ["src/main/*"],
       "@/preload/*": ["src/preload/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   }
 }

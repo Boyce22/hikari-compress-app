@@ -17,6 +17,7 @@
       "@/lib/*": ["src/renderer/lib/*"],
       "@/videos/*": ["src/renderer/features/videos/*"],
       "@/settings/*": ["src/renderer/features/settings/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   }
 }

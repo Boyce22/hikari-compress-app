@@ -1,8 +1,12 @@
 export interface SystemSpecifications {
-  gpu: string;
-  ram: number;
-  cpu: string;
+   cpu: string;
   cpuCores: number;
+  gpu: string;
   os: string;
-  gpuAvailable?: boolean; // opcional, define se pode usar NVENC/VAAPI
+  ram: number;
+  gpuAvailable: boolean;
+  ramTotalGB?: number;
+  isGpuDedicated?: boolean;
+  isRamInteger?: boolean;
+  gpuMemoryMB?: number | null;
 }
