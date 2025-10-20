@@ -14,7 +14,7 @@ import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
 
-import { VideoRepository } from './node/repository';
+import { VideoRepository } from '@/main/node/repository/video.repository';
 
 const ICON_PATH =
   process.platform === 'darwin' ? join(process.resourcesPath, 'icon.icns') : join(process.resourcesPath, 'icon.ico');
