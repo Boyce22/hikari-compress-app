@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: hikari-compress
+appId: br.tsukuyomi-labs.hikari-compress
+productName: 'Hikari Compress'
 directories:
   buildResources: build
 files:
@@ -12,7 +12,8 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: hikari-compress
+  icon: icon.ico
+  executableName: 'Hikari Compress'
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -35,6 +36,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
+  icon: icon.ico
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

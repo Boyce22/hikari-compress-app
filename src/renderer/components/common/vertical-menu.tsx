@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { GripHorizontal, Settings, LayoutDashboard } from 'lucide-react';
+import { GripHorizontal, Settings, LayoutDashboard, GithubIcon } from 'lucide-react';
 
 interface VerticalMenuProps {
   activeTab: string;
@@ -7,8 +7,25 @@ interface VerticalMenuProps {
 }
 
 const MENU_OPTIONS = [
-  { id: 'dash', icon: LayoutDashboard, label: 'Dash' },
-  { id: 'settings', icon: Settings, label: 'Vídeos' },
+  {
+    id: 'dash',
+    icon: LayoutDashboard,
+    label: 'Dash'
+  },
+  {
+    id: 'settings',
+    icon: Settings,
+    label: 'Vídeos'
+  },
+  {
+    id: 'github',
+    icon: GithubIcon,
+    label: 'GitHub',
+    redirect: {
+      link: 'https://github.com/Boyce22/hikari-compress-app',
+      label: 'Abrir repositório no GitHub'
+    }
+  }
 ];
 
 export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps) {
@@ -73,21 +90,28 @@ export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps)
       </div>
 
       <nav className="flex flex-col bg-muted rounded-b-xl border border-border shadow-lg overflow-hidden">
-        {MENU_OPTIONS.map(({ id, icon: Icon }) => {
+        {MENU_OPTIONS.map(({ id, icon: Icon, redirect, label }) => {
           const isSelected = activeTab === id;
+
+          const handleClick = () =>
+            redirect ? window.open(redirect.link, "_blank", "noopener,noreferrer") : onSelect(id);
+
+          const titleText = redirect ? redirect.label : `Selecionar "${label}"`;
+
           return (
             <button
               key={id}
-              onClick={() => onSelect(id)}
-              className={`flex justify-center items-center w-11 h-11 transition-colors duration-300 ${
-                isSelected ? 'bg-primary text-primary-foreground' : 'text-foreground/50 hover:bg-accent'
-              }`}
+              onClick={handleClick}
+              title={titleText}
+              className={`flex justify-center items-center w-11 h-11 relative transition-colors duration-300
+              ${isSelected ? 'bg-primary text-primary-foreground' : 'text-foreground/50 hover:bg-accent'}`}
             >
               <Icon size={19} />
             </button>
           );
         })}
       </nav>
+
     </div>
   );
 }

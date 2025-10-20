@@ -3,10 +3,10 @@ import type { StatusProcessing } from '@/shared/types/status-processing';
 export interface VideoFile {
   id: string;
   name: string;
-  size: number;
-  status: StatusProcessing;
-  progress: number;
+  uploadedAt: string;
   originalSize?: number;
+  processedAt?: string;
   compressedSize?: number;
-  estimatedTime?: string;
+  compressionRatio?: number;
+  progress: StatusProcessing;
 }

@@ -2,7 +2,9 @@
 
 ## Sobre o Projeto
 
-O Hikari Compress é um aplicativo de desktop de código aberto, desenvolvido para compressão de vídeos. O objetivo principal é oferecer uma interface de usuário intuitiva para reduzir o tamanho de arquivos de vídeo de forma eficiente, utilizando codecs modernos e configurações otimizadas, sem uma perda perceptível de qualidade visual.
+O Hikari Compress é um aplicativo de desktop de código aberto, desenvolvido para compressão de vídeos. O objetivo
+principal é oferecer uma interface de usuário intuitiva para reduzir o tamanho de arquivos de vídeo de forma eficiente,
+utilizando codecs modernos e configurações otimizadas, sem uma perda perceptível de qualidade visual.
 
 A aplicação é construída com Electron, React e Nodejs.
 
@@ -16,7 +18,8 @@ A aplicação é construída com Electron, React e Nodejs.
 
 ## Estrutura do Projeto
 
-A estrutura do projeto é organizada para separar claramente as responsabilidades entre o processo principal do Electron, o processo de renderização (a interface do usuário) e o código compartilhado entre eles.
+A estrutura do projeto é organizada para separar claramente as responsabilidades entre o processo principal do Electron,
+o processo de renderização (a interface do usuário) e o código compartilhado entre eles.
 
 ```
 /
@@ -59,10 +62,14 @@ A estrutura do projeto é organizada para separar claramente as responsabilidade
 
 ### Descrição das Pastas Principais
 
-- **`src/main`**: Contém toda a lógica backend que roda no ambiente Node.js do Electron. Isso inclui a criação de janelas, comunicação inter-processos (IPC) e acesso a recursos do sistema operacional, como o sistema de arquivos.
-- **`src/preload`**: Atua como uma ponte segura entre o backend (`main`) e o frontend (`renderer`). Ele filtra e expõe funcionalidades do Node.js que o frontend precisa.
-- **`src/renderer`**: É a aplicação React que contém a interface gráfica. Este código roda em um ambiente de navegador (Chromium) e não tem acesso direto às APIs do Node.js, exceto pelo que é exposto via script de `preload`.
-- **`src/shared`**: Essencial para evitar duplicação de código. Contém tipos, interfaces e funções que são utilizados tanto pelo processo `main` quanto pelo `renderer`.
+- **`src/main`**: Contém toda a lógica backend que roda no ambiente Node.js do Electron. Isso inclui a criação de
+  janelas, comunicação inter-processos (IPC) e acesso a recursos do sistema operacional, como o sistema de arquivos.
+- **`src/preload`**: Atua como uma ponte segura entre o backend (`main`) e o frontend (`renderer`). Ele filtra e expõe
+  funcionalidades do Node.js que o frontend precisa.
+- **`src/renderer`**: É a aplicação React que contém a interface gráfica. Este código roda em um ambiente de navegador
+  (Chromium) e não tem acesso direto às APIs do Node.js, exceto pelo que é exposto via script de `preload`.
+- **`src/shared`**: Essencial para evitar duplicação de código. Contém tipos, interfaces e funções que são utilizados
+  tanto pelo processo `main` quanto pelo `renderer`.
 
 ## Como Começar
 
@@ -89,7 +96,9 @@ Para iniciar o aplicativo em modo de desenvolvimento, com hot-reload ativado, ex
 ```bash
 npm run dev
 ```
+
 ---
+
 ## Scripts Disponíveis
 
 O projeto inclui vários scripts para auxiliar no desenvolvimento e build:
@@ -102,11 +111,13 @@ O projeto inclui vários scripts para auxiliar no desenvolvimento e build:
 - **`npm run format`**: Formata todo o código do projeto usando o Prettier.
 - **`npm run lint`**: Analisa o código em busca de erros e problemas de estilo com o ESLint.
 - **`npm run typecheck`**: Verifica os tipos de todo o projeto TypeScript.
+
 ---
 
 ## Build e Empacotamento
 
-Para criar uma versão distribuível da aplicação, você pode usar os scripts de build. O processo é configurado pelo `electron-builder`.
+Para criar uma versão distribuível da aplicação, você pode usar os scripts de build. O processo é configurado pelo
+`electron-builder`.
 
 1.  Execute o script de build para a sua plataforma de destino (ex: `npm run build:win`).
 2.  Os artefatos da compilação, incluindo o instalador, serão gerados no diretório `out/`.
@@ -120,4 +131,5 @@ Esse modo ativa o **ambiente de desenvolvimento**, que:
 - **Mostra mensagens de erro detalhadas**;
 - E é **otimizado para testar e ajustar** o projeto rapidamente.
 
-Já o comando **`npm run build`** deve ser usado **somente quando o projeto estiver pronto para ser publicado ou testado em produção**.
+Já o comando **`npm run build`** deve ser usado **somente quando o projeto estiver pronto para ser publicado ou testado
+em produção**.

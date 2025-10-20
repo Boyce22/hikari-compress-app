@@ -1,6 +1,6 @@
-import { TrendingUp } from "lucide-react";
-import { Card } from "@/renderer/components/ui/card";
-import { formatFileSize } from "@/shared/utils/format-file-size";
+import { TrendingUp } from 'lucide-react';
+import { Card } from '@/renderer/components/ui/card';
+import { formatFileSize } from '@/shared/utils/format-file-size';
 
 interface CardStatsProps {
   value: number | string;
@@ -29,5 +29,3 @@ export const CardStats = ({ value, label, subtitle, trend, icon: Icon, bytes = t
     </div>
   </Card>
 );
-
-
