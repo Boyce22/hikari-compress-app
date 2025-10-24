@@ -28,7 +28,7 @@ export class VideoRepository {
     const stmt = this.db.prepare(`
       SELECT *
       FROM video
-      ORDER BY id DESC
+      ORDER BY processed_at ASC
     `);
 
     const rows = stmt.all();

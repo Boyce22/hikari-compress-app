@@ -20,8 +20,14 @@ export const useSettings = () => {
     backgroundImage: null,
   });
 
+  const persistSettings = useCallback(async () => {
+    const { backgroundImage, ...rest } = settings
+    await window.api.updateSettings({ data: rest });
+  }, []);
+
+
   const updateSetting = useCallback(<K extends keyof Settings>(key: K, value: Settings[K]) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
   }, []);
 
   const handleFolderStorage = useCallback(async () => {
@@ -42,7 +48,7 @@ export const useSettings = () => {
     updateSetting('backgroundImage', {
       id: crypto.randomUUID(),
       name: files[0].path,
-      preview: storedPath, 
+      preview: storedPath,
       full: storedPath,
     });
   }, [updateSetting]);
@@ -52,6 +58,7 @@ export const useSettings = () => {
   return {
     settings,
     updateSetting,
+    persistSettings,
     handleFolderStorage,
     handleBackgroundImageUpload,
     removeBackgroundImage,

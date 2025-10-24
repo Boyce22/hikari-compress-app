@@ -4,11 +4,13 @@ import { OptionsFileDialog } from '@/shared/types/open-file-dialog';
 import { SystemSpecifications } from '@/shared/types/system-specifications';
 import { FileDialog } from '@/shared/types/file-dialog';
 import { FindAllVideoParams, VideoFile } from '@/shared/types/video';
+import { SettingsUpdateData } from '@/shared/types/settings';
 
 declare global {
   interface Window {
     electron: ElectronAPI;
     api: {
+      updateSettings: (args: SettingsUpdateData) => Promise<void>;
       findAllVideos: () => Promise<VideoFile[]>;
       openFileDialog: (options: OptionsFileDialog) => Promise<FileDialog[]>;
       compressVideo: (options: ConvertOptions) => Promise<{ size: number; outputPath: string }>;

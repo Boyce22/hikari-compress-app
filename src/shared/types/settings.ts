@@ -17,6 +17,15 @@ export interface Settings {
   backgroundImage: BackgroundImage | null;
 }
 
+export interface SettingsData extends Partial<Omit<Settings, 'backgroundImage'>> {
+  backgroundId?: string | null;
+}
+
+export interface SettingsUpdateData {
+  data: SettingsData;
+  id?: string;
+}
+
 export const convertRawToSettingsObject = (raw: Record<string, any>): Settings => {
   return {
     id: raw['id'],

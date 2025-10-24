@@ -101,9 +101,9 @@ export const VideoSettings = () => {
           <SelectField
             label="Memória Ram"
             icon={MemoryStick}
-            value={settings.ram}
+            value={String(settings.ram)}
             options={availableRam}
-            onChange={(v) => updateSetting('ram', v)}
+            onChange={(v) => updateSetting('ram', parseInt(v))}
           />
         </div>
       </section>

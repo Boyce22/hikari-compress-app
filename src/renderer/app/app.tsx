@@ -1,8 +1,9 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 
 import { Dash } from '@/features/dashboard';
-import { Settings as SettingsComponent } from '@/features/settings';
 import VerticalMenu from '../components/common/vertical-menu';
+import { Settings as SettingsComponent } from '@/features/settings';
+import { useVideoFilesContext } from './providers/videos-provider';
 
 const TAB_TITLES = {
   dash: 'Comprimir Vídeos',
@@ -12,7 +13,12 @@ const TAB_TITLES = {
 type TabKey = keyof typeof TAB_TITLES;
 
 export const HikariCompressApp: React.FC = () => {
+  const { fetchVideos } = useVideoFilesContext()
   const [activeTab, setActiveTab] = useState<TabKey>('dash');
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
 
   const CONTENT_MAP: Record<TabKey, JSX.Element> = {
     dash: <Dash />,

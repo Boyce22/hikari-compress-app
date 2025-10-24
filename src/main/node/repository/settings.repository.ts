@@ -1,11 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 
-import { convertRawToSettingsObject, Settings } from '../../../shared/types/settings';
 import { camelToSnakeKey, DatabaseManager, getDatabaseManager } from '../database';
-
-interface SettingsData extends Partial<Omit<Settings, 'backgroundImage'>> {
-  backgroundId?: string | null;
-}
+import { convertRawToSettingsObject, Settings, SettingsUpdateData } from '../../../shared/types/settings';
 
 export class SettingsRepository {
   private db: DatabaseSync;
@@ -16,7 +12,7 @@ export class SettingsRepository {
     this.db = this.dbManager.getDatabase();
   }
 
-  public update({ data, id = 'app_settings' }: { data: SettingsData; id?: string }) {
+  public update({ data, id = 'app_settings' }: SettingsUpdateData) {
     const columns = Object.keys(data);
 
     const assignments = columns.map((col) => `${camelToSnakeKey(col)} = $${col}`).join(', ');

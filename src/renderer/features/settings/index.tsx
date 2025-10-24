@@ -6,6 +6,7 @@ import { VideoSettings } from '../../features/settings/components/video-settings
 import { AudioSettings } from '../../features/settings/components/audio-settings';
 import { StorageSettings } from '../../features/settings/components/storage-settings';
 import { BackgroundGallerySettings } from '../../features/settings/components/background-gallery-settings';
+import { UploadSettings } from './components/upload-settings';
 
 export const Settings = memo(() => {
   return (
@@ -18,6 +19,7 @@ export const Settings = memo(() => {
         <VideoSettings />
         <Separator />
         <AudioSettings />
+        <UploadSettings/>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import {
   ColumnDef,
@@ -78,13 +78,7 @@ const ProgressCell = ({ status }: { status: StatusProcessing }) => {
   );
 };
 
-const ActionsCell = ({
-  name,
-  progress,
-}: {
-  name: string;
-  progress: StatusProcessing;
-}) => (
+const ActionsCell = ({ name, progress }: { name: string; progress: StatusProcessing }) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <MoreHorizontal className="h-4 w-4 text-primary-foreground" />
@@ -104,14 +98,12 @@ const ActionsCell = ({
         Copiar nome do arquivo
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem
-        className="text-sm text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors flex items-center gap-2"
-      >
+      <DropdownMenuItem className="text-sm text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors flex items-center gap-2">
         <Trash2 className="h-4 w-4" /> Remover histórico
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
-);;
+);
 
 export const columns: ColumnDef<VideoFile>[] = [
   {
@@ -144,7 +136,7 @@ export const columns: ColumnDef<VideoFile>[] = [
     header: 'Tamanho Compactado',
     cell: ({ row }) => {
       const compressedSize = row.getValue<number>('compressedSize');
-      return compressedSize ? formatFileSize(compressedSize) : null
+      return compressedSize ? formatFileSize(compressedSize) : null;
     },
   },
   {
@@ -152,7 +144,9 @@ export const columns: ColumnDef<VideoFile>[] = [
     header: 'Compressão',
     cell: ({ row }) => {
       const compressionRatio = row.getValue<number>('compressionRatio');
-      return compressionRatio !== undefined && compressionRatio !== null ? `${(compressionRatio * 100).toFixed(1)}%` : null;
+      return compressionRatio !== undefined && compressionRatio !== null
+        ? `${(compressionRatio * 100).toFixed(1)}%`
+        : null;
     },
   },
   {
@@ -180,20 +174,16 @@ export const columns: ColumnDef<VideoFile>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => <ActionsCell name={row.original.name} progress={row.original.progress} />
+    cell: ({ row }) => <ActionsCell name={row.original.name} progress={row.original.progress} />,
   },
 ];
 
 export function VideoTable() {
-  const { videos, fetchVideos } = useVideoFilesContext()
+  const { videos } = useVideoFilesContext();
   const [selection, setSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [visibility, setVisibility] = useState<VisibilityState>({});
-
-  useEffect(() => {
-    fetchVideos()
-  }, [])
 
   const table = useReactTable({
     data: useMemo(() => videos, [videos]),

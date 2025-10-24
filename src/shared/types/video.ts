@@ -32,7 +32,7 @@ export interface FindAllVideoParams {
   page?: number;
   limit?: number;
   orderBy?: (keyof VideoFile)[];
-  orderDir?: ('ASC' | 'DESC')[]
+  orderDir?: ('ASC' | 'DESC')[];
 }
 
 export interface PaginatedVideo {

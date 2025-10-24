@@ -10,12 +10,12 @@ const MENU_OPTIONS = [
   {
     id: 'dash',
     icon: LayoutDashboard,
-    label: 'Dash'
+    label: 'Dash',
   },
   {
     id: 'settings',
     icon: Settings,
-    label: 'Vídeos'
+    label: 'Vídeos',
   },
   {
     id: 'github',
@@ -23,9 +23,9 @@ const MENU_OPTIONS = [
     label: 'GitHub',
     redirect: {
       link: 'https://github.com/Boyce22/hikari-compress-app',
-      label: 'Abrir repositório no GitHub'
-    }
-  }
+      label: 'Abrir repositório no GitHub',
+    },
+  },
 ];
 
 export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps) {
@@ -94,7 +94,7 @@ export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps)
           const isSelected = activeTab === id;
 
           const handleClick = () =>
-            redirect ? window.open(redirect.link, "_blank", "noopener,noreferrer") : onSelect(id);
+            redirect ? window.open(redirect.link, '_blank', 'noopener,noreferrer') : onSelect(id);
 
           const titleText = redirect ? redirect.label : `Selecionar "${label}"`;
 
@@ -111,7 +111,6 @@ export default function VerticalMenu({ activeTab, onSelect }: VerticalMenuProps)
           );
         })}
       </nav>
-
     </div>
   );
 }

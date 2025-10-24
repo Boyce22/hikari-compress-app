@@ -50,18 +50,18 @@ export const AudioSettings = () => {
 
         <SwitchField
           label="Manter faixas de áudio"
-          checked={settings.keepAudio}
-          onChange={(v) => updateSetting('keepAudio', v)}
+          checked={Boolean(settings.keepAudio)}
+          onChange={(v) => updateSetting('keepAudio', Number(v))}
         />
         <SwitchField
           label="Manter legendas"
-          checked={settings.keepSubtitles}
-          onChange={(v) => updateSetting('keepSubtitles', v)}
+          checked={Boolean(settings.keepSubtitles)}
+          onChange={(v) => updateSetting('keepSubtitles', Number(v))}
         />
         <SwitchField
           label="Aceleração de hardware"
-          checked={settings.hardwareAcceleration}
-          onChange={(v) => updateSetting('hardwareAcceleration', v)}
+          checked={Boolean(settings.hardwareAcceleration)}
+          onChange={(v) => updateSetting('hardwareAcceleration', Number(v))}
           description="Usa GPU para acelerar a codificação (requer suporte)"
           fullWidth
         />

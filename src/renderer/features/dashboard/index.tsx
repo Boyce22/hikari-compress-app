@@ -1,12 +1,20 @@
+
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { useState, useMemo } from 'react';
-import { CardStats } from './components/card-stats';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
+
 import { VideoTable } from './components/video-table';
 import { CustomTooltip } from './components/custom-tool-tip';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
-import { Archive, CloudUpload, Cpu, FileVideo, HardDrive, Zap } from 'lucide-react';
+
+import { useState, useMemo } from 'react';
+import { CloudUpload, Cpu, } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+import { formatFileSize } from '@/shared/utils/format-file-size';
+import { StatusProcessing } from '@/shared/types/status-processing';
+import { useVideoFilesContext } from '@/renderer/app/providers/videos-provider';
+import { calculateCardsStats, CardStat } from './utils/calculate-cards-stats';
+import { CardStats } from './components/card-stats';
 
 const RANGE_OPTIONS = [
   { label: '7 dias', value: 7 },
@@ -14,57 +22,33 @@ const RANGE_OPTIONS = [
   { label: '3 meses', value: 90 },
 ];
 
-const CARDS_STATS = [
-  {
-    icon: Archive,
-    label: 'Total Processado',
-    value: 900102301,
-    subtitle: 'Crescimento neste mês',
-    trend: '+8,2%',
-  },
-  {
-    icon: HardDrive,
-    label: 'Espaço Economizado',
-    value: 229309120,
-    subtitle: 'Redução de 20%',
-    trend: '+20%',
-  },
-  {
-    icon: FileVideo,
-    label: 'Arquivos Processados',
-    value: 5,
-    bytes: false,
-    subtitle: 'Alta retenção',
-    trend: '+12,5%',
-  },
-  {
-    icon: Zap,
-    label: 'Taxa de Compressão',
-    value: '33%',
-    bytes: false,
-    subtitle: 'Desempenho em crescimento',
-    trend: '+4,5%',
-  },
-];
-
 export const Dash = () => {
   const [range, setRange] = useState(7);
+  const [cardsStats, setCardsStats] = useState<CardStat[]>();
+
+  const { videos } = useVideoFilesContext()
 
   const chartData = useMemo(() => {
-    const now = new Date();
-    return Array.from({ length: range }).map((_, i) => {
-      const date = new Date(now);
-      date.setDate(now.getDate() - (range - i - 1));
-      const original = Math.random() * 500 + 300;
-      const compressed = original * (Math.random() * 0.3 + 0.3);
+    if (!videos?.length) return [];
 
-      return {
-        name: date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
-        originalSize: Number(original.toFixed(2)),
-        compressedSize: Number(compressed.toFixed(2)),
-      };
+    const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'short'
     });
-  }, [range]);
+
+    const videosCompleted = videos
+      .filter((video) => video.progress === StatusProcessing.COMPLETED)
+
+    const processedVideos = videosCompleted.map(video => ({
+      name: dateFormatter.format(new Date(video.processedAt!)),
+      originalSize: video.originalSize,
+      compressedSize: video.compressedSize,
+    }));
+
+    setCardsStats(calculateCardsStats(videosCompleted, range))
+
+    return processedVideos.slice(-Math.max(0, range));
+  }, [videos, range]);
 
   return (
     <div className="flex-1 overflow-auto bg-background p-12">
@@ -86,7 +70,7 @@ export const Dash = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {CARDS_STATS.map((c, idx) => (
+          {cardsStats && cardsStats.map((c, idx) => (
             <CardStats
               key={idx}
               icon={c.icon}
@@ -111,7 +95,7 @@ export const Dash = () => {
                 <div className="gap-1 flex flex-col">
                   <h4 className="text-md font-semibold">Histórico de Conversão</h4>
                   <p className="text-sm text-muted-foreground ">
-                    Total for the {RANGE_OPTIONS.find((opt) => opt.value === range)?.label.toLocaleLowerCase()}
+                    Total de {RANGE_OPTIONS.find((opt) => opt.value === range)?.label.toLocaleLowerCase()}
                   </p>
                 </div>
                 <div className="flex gap-1 bg-muted/10 p-1 rounded-md">
@@ -162,7 +146,7 @@ export const Dash = () => {
                     axisLine={false}
                     tickMargin={10}
                     tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
-                    tickFormatter={(value) => `${value} MB`}
+                    tickFormatter={(value) => formatFileSize(value)}
                   />
                   <Tooltip content={<CustomTooltip />} />
 

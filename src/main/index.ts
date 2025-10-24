@@ -14,7 +14,8 @@ import { OptionsFileDialog } from '@/shared/types/options-file-dialog';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron';
 
-import { VideoRepository } from './node/repository';
+import { VideoRepository, SettingsRepository } from './node/repository';
+import { SettingsUpdateData } from '@/shared/types/settings';
 
 const ICON_PATH =
   process.platform === 'darwin' ? join(process.resourcesPath, 'icon.icns') : join(process.resourcesPath, 'icon.ico');
@@ -87,6 +88,7 @@ function registerIpcHandlers() {
   ipcMain.handle('compress-video', handleCompressVideo);
   ipcMain.handle('get-system-specs', handleGetSystemSpecs);
   ipcMain.handle('find-all-videos', handleFindAllVideo);
+  ipcMain.handle('update-settings', handleUpdateSettings);
 }
 
 function handleFindAllVideo(_event: any) {
@@ -110,6 +112,11 @@ async function handleOpenFileDialog(_event: any, args: OptionsFileDialog): Promi
     path: fp,
     originalSize: handleGetOriginzalFileSize(fp),
   }));
+}
+
+function handleUpdateSettings(_event, { id = 'app_settings', data }: SettingsUpdateData) {
+  const settingsRepository = new SettingsRepository();
+  return settingsRepository.update({ data, id });
 }
 
 async function handleStoreImage(_event: any, originalPath: string) {

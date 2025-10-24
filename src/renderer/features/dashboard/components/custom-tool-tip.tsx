@@ -23,16 +23,16 @@ export const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
       <div className="space-y-2 text-muted-foreground">
         <div className="flex justify-between items-center">
           <span>Original:</span>
-          <span className="text-blue-400 font-medium">{formatFileSize(original * 1_000_000)}</span>
+          <span className="text-blue-400 font-medium">{formatFileSize(original)}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span>Compressed:</span>
-          <span className="text-cyan-400 font-medium">{formatFileSize(compressed * 1_000_000)}</span>
+          <span>Comprimido:</span>
+          <span className="text-cyan-400 font-medium">{formatFileSize(compressed)}</span>
         </div>
         <div className="flex justify-between items-center border-t border-border/40 pt-2 mt-2 text-foreground font-medium">
-          <span>Savings:</span>
+          <span>Salvo:</span>
           <span className="text-green-400">
-            {formatFileSize(saved * 1_000_000)} ({percent}%)
+            {formatFileSize(saved)} ({percent}%)
           </span>
         </div>
       </div>

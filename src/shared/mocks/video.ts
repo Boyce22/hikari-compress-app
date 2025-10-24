@@ -12,7 +12,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '2',
@@ -24,7 +24,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '3',
@@ -36,7 +36,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 40,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '4',
@@ -48,7 +48,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '5',
@@ -60,7 +60,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '6',
@@ -72,7 +72,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 34,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '7',
@@ -84,7 +84,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '8',
@@ -96,7 +96,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '9',
@@ -108,7 +108,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '10',
@@ -120,7 +120,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 34,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '11',
@@ -132,7 +132,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '12',
@@ -144,7 +144,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '13',
@@ -156,7 +156,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '14',
@@ -168,7 +168,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 37,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '15',
@@ -180,7 +180,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '16',
@@ -192,7 +192,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '17',
@@ -204,7 +204,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '18',
@@ -216,7 +216,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 36,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '19',
@@ -228,7 +228,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '20',
@@ -240,7 +240,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '21',
@@ -252,7 +252,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 31,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '22',
@@ -264,7 +264,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '23',
@@ -276,7 +276,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 32,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '24',
@@ -288,7 +288,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 35,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '25',
@@ -300,7 +300,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 28,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '26',
@@ -312,7 +312,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '27',
@@ -324,7 +324,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 33,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '28',
@@ -336,7 +336,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 29,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '29',
@@ -348,7 +348,7 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
   {
     id: '30',
@@ -360,6 +360,6 @@ export const videoMock: VideoFile[] = [
     compressionRatio: 30,
     progress: StatusProcessing.COMPLETED,
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
 ];

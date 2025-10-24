@@ -14,6 +14,6 @@ export const useVideoFiles = () => {
   return {
     videos,
     setVideos,
-    fetchVideos
+    fetchVideos,
   };
 };
